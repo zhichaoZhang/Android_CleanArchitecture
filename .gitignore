@@ -1,0 +1,12 @@
+/.gradle
+/gradle
+.idea
+app/build
+app/app.iml
+data/build
+data/data.iml
+domain/build
+domain/domain.iml
+gradlew
+gradlew.bat
+Android_CleanArchitecture.iml

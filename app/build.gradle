@@ -1,0 +1,100 @@
+apply plugin: 'com.android.application'
+
+android {
+
+    def globalConfig = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfig["androidCompileSdkVersion"]
+    buildToolsVersion globalConfig["androidBuildToolsVersion"]
+    defaultConfig {
+        applicationId globalConfig["androidApplicationId"]
+        minSdkVersion globalConfig["androidMinSdkVersion"]
+        targetSdkVersion globalConfig["androidTargetSdkVersion"]
+        versionCode globalConfig["androidVersionCode"]
+        versionName globalConfig["androidVersionName"]
+        testInstrumentationRunner globalConfig["testInstrumentationRunner"]
+        testApplicationId globalConfig["testApplicationId"]
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+        disable 'InvalidPackage'            //Some libraries have issues with this.
+        disable 'OldTargetApi'
+        //Lint gives this warning but SDK 20 would be Android L Beta.
+        disable 'IconDensities'             //For testing purpose. This is safe to remove.
+        disable 'IconMissingDensityFolder'  //For testing purpose. This is safe to remove.
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    configurations.all {
+        resolutionStrategy.force 'android.arch.core:runtime:1.1.1'
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':domain')
+    implementation project(':data')
+
+    def appDependencies = rootProject.ext.appDependencies
+    def appTestDependencies = rootProject.ext.appTestDependencies
+    def developmentDependencies = rootProject.ext.developmentDependencies
+
+    implementation appDependencies.supportDesign
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    annotationProcessor appDependencies.daggerCompiler
+    implementation appDependencies.dagger
+    implementation appDependencies.daggerAndroid
+    implementation appDependencies.daggerAndroidSupport
+    annotationProcessor appDependencies.daggerAndroidCompiler
+    implementation appDependencies.butterKnife
+    annotationProcessor appDependencies.butterKnifeCompiler
+    implementation appDependencies.recyclerView
+    implementation appDependencies.rxJava
+    implementation appDependencies.rxAndroid
+    implementation appDependencies.appCompatV7
+    implementation appDependencies.constraintLayout
+    compileOnly appDependencies.javaxAnnotation
+
+    debugImplementation appDependencies.stetho
+    debugImplementation appDependencies.stethoOkHttp
+
+    testImplementation appTestDependencies.junit
+    testImplementation appTestDependencies.mockito
+    testImplementation appTestDependencies.robolectric
+    androidTestImplementation appTestDependencies.dexmaker
+    androidTestImplementation appTestDependencies.dexmakerMockito
+    androidTestImplementation appTestDependencies.espresso
+    androidTestImplementation appTestDependencies.testingSupportLib
+
+    //Development
+    implementation developmentDependencies.leakCanary
+}
