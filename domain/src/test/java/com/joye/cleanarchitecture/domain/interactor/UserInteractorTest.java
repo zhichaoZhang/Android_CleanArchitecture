@@ -4,6 +4,7 @@ import com.joye.cleanarchitecture.domain.exception.DomainException;
 import com.joye.cleanarchitecture.domain.executor.TestJobExecutor;
 import com.joye.cleanarchitecture.domain.executor.TestPostExecutionThread;
 import com.joye.cleanarchitecture.domain.model.User;
+import com.joye.cleanarchitecture.domain.model.UserConfig;
 import com.joye.cleanarchitecture.domain.model.common.Contact;
 import com.joye.cleanarchitecture.domain.repository.Cache;
 import com.joye.cleanarchitecture.domain.repository.UserRepository;
@@ -32,10 +33,13 @@ public class UserInteractorTest {
     @Mock
     private Cache<User> userCache;
 
+    @Mock
+    private Cache<UserConfig> userConfigCache;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        userInteractor = new UserInteractor(new TestJobExecutor(), new TestPostExecutionThread(), userRepository, userCache);
+        userInteractor = new UserInteractor(new TestJobExecutor(), new TestPostExecutionThread(), userRepository, userCache, userConfigCache);
     }
 
     @Test
