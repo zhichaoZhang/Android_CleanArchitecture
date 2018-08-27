@@ -4,7 +4,7 @@
 
 ## 项目结构图
 
-
+![](https://near.qfpay.com.cn/op_upload/483425/1535360655744.png)
 
 ## 主要第三方库依赖
 
