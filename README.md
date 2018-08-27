@@ -3,7 +3,7 @@
 基本实现了欢迎页 -> 登录页 -> 主页的一般逻辑。可基于此项目开发直接添加不同的业务模块。
 
 ## 项目结构图
-<img src="https://near.qfpay.com.cn/op_upload/483425/1535360655744.png" width=656 height=300 />
+<img src="https://near.qfpay.com.cn/op_upload/483425/1535360655744.png"/>
 
 ## 主要第三方库依赖
 
