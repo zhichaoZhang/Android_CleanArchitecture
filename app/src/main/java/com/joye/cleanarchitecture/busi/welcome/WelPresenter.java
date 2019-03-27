@@ -9,11 +9,11 @@ import com.joye.cleanarchitecture.app.core.mvp.presenter.BasePresenter;
 import com.joye.cleanarchitecture.busi.login.LoginActivity;
 import com.joye.cleanarchitecture.busi.main.MainActivity;
 import com.joye.cleanarchitecture.data.cache.UserCache;
-import com.joye.cleanarchitecture.data.utils.MyLog;
 import com.joye.cleanarchitecture.domain.interactor.UserInteractor;
 import com.joye.cleanarchitecture.domain.model.User;
 import com.joye.cleanarchitecture.domain.model.UserConfig;
 import com.joye.cleanarchitecture.domain.repository.Cache;
+import com.joye.cleanarchitecture.domain.utils.MyLog;
 
 import javax.inject.Inject;
 

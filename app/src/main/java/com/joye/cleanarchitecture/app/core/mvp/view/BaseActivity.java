@@ -24,7 +24,7 @@ import com.joye.cleanarchitecture.R;
 import com.joye.cleanarchitecture.app.core.dialog.BaseDialog;
 import com.joye.cleanarchitecture.app.core.dialog.LoadingDialog;
 import com.joye.cleanarchitecture.app.core.mvp.presenter.BasePresenter;
-import com.joye.cleanarchitecture.data.utils.MyLog;
+import com.joye.cleanarchitecture.domain.utils.MyLog;
 import com.joye.cleanarchitecture.utils.InputTypeUtil;
 import com.joye.cleanarchitecture.utils.ToastUtil;
 

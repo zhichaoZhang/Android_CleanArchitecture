@@ -8,11 +8,11 @@ import com.joye.cleanarchitecture.app.UIObserver;
 import com.joye.cleanarchitecture.app.core.mvp.presenter.BasePresenter;
 import com.joye.cleanarchitecture.busi.main.MainActivity;
 import com.joye.cleanarchitecture.busi.register.RegisterActivity;
-import com.joye.cleanarchitecture.data.utils.MyLog;
 import com.joye.cleanarchitecture.domain.exception.user.UnregisterException;
 import com.joye.cleanarchitecture.domain.exception.user.UserInfoIncompleteException;
 import com.joye.cleanarchitecture.domain.interactor.UserInteractor;
 import com.joye.cleanarchitecture.domain.model.User;
+import com.joye.cleanarchitecture.domain.utils.MyLog;
 import com.joye.cleanarchitecture.utils.TextUtils;
 
 import javax.inject.Inject;

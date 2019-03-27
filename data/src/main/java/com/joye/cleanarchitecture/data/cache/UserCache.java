@@ -3,7 +3,7 @@ package com.joye.cleanarchitecture.data.cache;
 import com.joye.cleanarchitecture.data.cache.database.UserDao;
 import com.joye.cleanarchitecture.data.cache.exception.CacheUserException;
 import com.joye.cleanarchitecture.data.cache.exception.ReadUserCacheException;
-import com.joye.cleanarchitecture.data.utils.MyLog;
+import com.joye.cleanarchitecture.domain.utils.MyLog;
 import com.joye.cleanarchitecture.domain.exception.ExceptionCode;
 import com.joye.cleanarchitecture.domain.executor.PostExecutionThread;
 import com.joye.cleanarchitecture.domain.executor.ThreadExecutor;

@@ -5,9 +5,8 @@ import android.support.annotation.Nullable;
 import android.widget.TextView;
 
 import com.joye.cleanarchitecture.R;
-import com.joye.cleanarchitecture.app.core.mvp.view.BaseActivity;
 import com.joye.cleanarchitecture.app.core.mvp.view.BaseInjectActivity;
-import com.joye.cleanarchitecture.data.utils.MyLog;
+import com.joye.cleanarchitecture.domain.utils.MyLog;
 
 import butterknife.BindView;
 

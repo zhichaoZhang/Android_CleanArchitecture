@@ -7,6 +7,10 @@ import android.support.v4.app.Fragment;
 
 import com.joye.cleanarchitecture.app.di.components.DaggerApplicationComponent;
 import com.joye.cleanarchitecture.app.di.modules.ApplicationModule;
+import com.joye.cleanarchitecture.app.environment.AppProcess;
+import com.joye.cleanarchitecture.app.environment.MainProcess;
+import com.joye.cleanarchitecture.app.environment.PushProcess;
+import com.joye.cleanarchitecture.utils.DeviceUtil;
 
 import javax.inject.Inject;
 
@@ -35,10 +39,25 @@ public class BaseApplication extends Application implements HasActivityInjector,
     @Override
     public void onCreate() {
         super.onCreate();
+        String processName = DeviceUtil.getProcessName(this);
+        AppProcess appProcess = getAppProcess(processName);
+        appProcess.init();
+
         DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .build()
                 .inject(this);
+    }
+
+    private AppProcess getAppProcess(String processName) {
+        AppProcess appProcess = null;
+        if (processName.endsWith(AppProcess.TAG_PUSH_PROCESS)) {
+            appProcess = new PushProcess(this);
+        } else {
+            appProcess = new MainProcess(this);
+        }
+
+        return appProcess;
     }
 
     @Override

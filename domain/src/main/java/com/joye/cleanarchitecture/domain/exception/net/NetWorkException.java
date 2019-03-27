@@ -1,4 +1,4 @@
-package com.joye.cleanarchitecture.data.exception;
+package com.joye.cleanarchitecture.domain.exception.net;
 
 
 import static com.joye.cleanarchitecture.domain.exception.ExceptionCode.EXC_CODE_NET_IO;

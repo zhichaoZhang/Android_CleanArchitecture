@@ -8,7 +8,7 @@ import android.os.IBinder;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import com.joye.cleanarchitecture.data.utils.MyLog;
+import com.joye.cleanarchitecture.domain.utils.MyLog;
 
 /**
  * 输入法工具类,如:打开关闭软键盘,复制,粘帖文字等

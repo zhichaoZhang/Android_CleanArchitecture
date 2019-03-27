@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 
-import com.joye.cleanarchitecture.data.utils.MyLog;
+import com.joye.cleanarchitecture.domain.utils.MyLog;
 
 import java.util.Map;
 import java.util.Set;

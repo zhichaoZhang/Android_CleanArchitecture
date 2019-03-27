@@ -2,7 +2,7 @@ package com.joye.cleanarchitecture.data.cache;
 
 import com.google.gson.Gson;
 import com.joye.cleanarchitecture.data.cache.exception.ReadUserConfigCacheException;
-import com.joye.cleanarchitecture.data.utils.MyLog;
+import com.joye.cleanarchitecture.domain.utils.MyLog;
 import com.joye.cleanarchitecture.domain.exception.ExceptionCode;
 import com.joye.cleanarchitecture.domain.model.UserConfig;
 import com.joye.cleanarchitecture.domain.repository.Cache;
@@ -10,8 +10,6 @@ import com.joye.cleanarchitecture.domain.repository.Cache;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 
 /**
  * 用户配置缓存

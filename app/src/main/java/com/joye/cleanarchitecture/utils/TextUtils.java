@@ -1,6 +1,7 @@
 package com.joye.cleanarchitecture.utils;
 
-import com.joye.cleanarchitecture.data.utils.MyLog;
+
+import com.joye.cleanarchitecture.domain.utils.MyLog;
 
 /**
  * 字符串操作工具类

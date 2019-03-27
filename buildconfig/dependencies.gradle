@@ -21,7 +21,7 @@ allprojects {
 
 ext {
     //Android Property
-    androidBuildToolsVersion = "27.0.3"
+    androidBuildToolsVersion = "28.0.3"
     androidMinSdkVersion = 15
     androidTargetSdkVersion = 26
     androidCompileSdkVersion = 26
@@ -31,13 +31,12 @@ ext {
     daggerVersion = '2.16'
     butterKnifeVersion = '8.8.1'
     recyclerViewVersion = '21.0.3'
-    rxJavaVersion = '2.1.12'
+    rxJavaVersion = '2.2.7'
     rxAndroidVersion = '2.0.2'
     javaxAnnotationVersion = '1.0'
     javaxInjectVersion = '1'
     constraintLayoutVersion = '1.1.2'
     retrofitVersion = '2.4.0'//Retrofit2自带OkHttpClient依赖
-    timberVersion = '3.1.0'
     roomVersion = '1.1.1'//数据库
 
     //Testing
@@ -52,7 +51,7 @@ ext {
 
     //Development
     leakCanaryVersion = '1.5.4'
-    stethoVersion = "1.5.0"
+    stethoVersion = "1.5.1"
 
     appDependencies = [
             dagger               : "com.google.dagger:dagger:${daggerVersion}",
@@ -65,13 +64,9 @@ ext {
             recyclerView         : "com.android.support:recyclerview-v7:${recyclerViewVersion}",
             rxJava               : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
             rxAndroid            : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
-            javaxAnnotation      : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             appCompatV7          : "com.android.support:appcompat-v7:${androidSupportVersion}",
             constraintLayout     : "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}",
-            supportAnnotations   : "com.android.support:support-annotations:${androidSupportVersion}",
             supportDesign        : "com.android.support:design:${androidSupportVersion}",
-            stetho               : "com.facebook.stetho:stetho:${stethoVersion}",
-            stethoOkHttp         : "com.facebook.stetho:stetho-okhttp3:${stethoVersion}",
     ]
 
     appTestDependencies = [
@@ -100,18 +95,16 @@ ext {
     dataDependencies = [
             daggerCompiler       : "com.google.dagger:dagger-compiler:${daggerVersion}",
             dagger               : "com.google.dagger:dagger:${daggerVersion}",
-            rxJava               : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
             rxAndroid            : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
-            javaxAnnotation      : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-            javaxInject          : "javax.inject:javax.inject:${javaxInjectVersion}",
             androidAnnotations   : "com.android.support:support-annotations:${androidSupportVersion}",
-            timber               : "com.jakewharton.timber:timber:${timberVersion}",
             retrofit             : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
             retrofitRxjavaAdapter: "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}",
             retrofitGsonConverter: "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
             room                 : "android.arch.persistence.room:runtime:${roomVersion}",
             roomCompiler         : "android.arch.persistence.room:compiler:${roomVersion}",
             roomRxjava2          : "android.arch.persistence.room:rxjava2:${roomVersion}",
+            stetho               : "com.facebook.stetho:stetho:${stethoVersion}",
+            stethoOkHttp         : "com.facebook.stetho:stetho-okhttp3:${stethoVersion}",
     ]
 
     dataTestDependencies = [

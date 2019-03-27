@@ -1,11 +1,11 @@
 package com.joye.cleanarchitecture.app;
 
 import com.joye.cleanarchitecture.app.core.mvp.view.BaseView;
-import com.joye.cleanarchitecture.data.exception.HttpException;
-import com.joye.cleanarchitecture.data.exception.NetErrorException;
-import com.joye.cleanarchitecture.data.exception.NetWorkException;
-import com.joye.cleanarchitecture.data.exception.UnknownException;
 import com.joye.cleanarchitecture.domain.exception.CommonDomainException;
+import com.joye.cleanarchitecture.domain.exception.net.HttpException;
+import com.joye.cleanarchitecture.domain.exception.net.NetErrorException;
+import com.joye.cleanarchitecture.domain.exception.net.NetWorkException;
+import com.joye.cleanarchitecture.domain.exception.net.UnknownException;
 import com.joye.cleanarchitecture.domain.interactor.DefaultObserver;
 
 /**

@@ -7,5 +7,10 @@ package com.joye.cleanarchitecture.app.environment;
  */
 
 public interface AppProcess {
+    /**
+     * 推送进程标识
+     */
+    public static String TAG_PUSH_PROCESS = ":push";
+
     void init();
 }

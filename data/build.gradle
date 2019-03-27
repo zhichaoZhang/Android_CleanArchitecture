@@ -64,12 +64,7 @@ dependencies {
     implementation project(':domain')
     def dataDependencies = rootProject.ext.dataDependencies
     def testDependencies = rootProject.ext.dataTestDependencies
-    compileOnly dataDependencies.javaxAnnotation
-    implementation dataDependencies.javaxInject
-    implementation dataDependencies.rxJava
-    implementation dataDependencies.rxAndroid
-    implementation dataDependencies.androidAnnotations
-    implementation dataDependencies.timber
+    api dataDependencies.androidAnnotations
     implementation dataDependencies.retrofit
     implementation dataDependencies.retrofitRxjavaAdapter
     implementation dataDependencies.retrofitGsonConverter
@@ -77,6 +72,12 @@ dependencies {
     annotationProcessor dataDependencies.roomCompiler
     implementation dataDependencies.roomRxjava2
 
+
+    debugImplementation dataDependencies.stetho
+    debugImplementation (dataDependencies.stethoOkHttp) {
+        //移除stetho自带的OkHttp依赖
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
+    }
     testImplementation testDependencies.junit
     testImplementation testDependencies.assertj
     testImplementation testDependencies.mockito

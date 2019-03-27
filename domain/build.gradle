@@ -1,4 +1,4 @@
-apply plugin: 'java'
+apply plugin: 'java-library'
 
 sourceCompatibility = "1.8"
 targetCompatibility = "1.8"
@@ -20,9 +20,8 @@ dependencies {
     def domainTestDependencies = rootProject.ext.domainTestDependencies
 
     compileOnly domainDependencies.javaxAnnotation
-
-    implementation domainDependencies.javaxInject
-    implementation domainDependencies.rxJava
+    api domainDependencies.javaxInject
+    api domainDependencies.rxJava
     implementation domainDependencies.room
 
     testImplementation domainTestDependencies.junit

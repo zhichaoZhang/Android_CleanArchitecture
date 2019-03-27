@@ -1,9 +1,13 @@
 package com.joye.cleanarchitecture.data.net.okhttp;
 
+import android.content.Context;
+
+import com.facebook.stetho.Stetho;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.joye.cleanarchitecture.data.net.NetHeader;
 import com.joye.cleanarchitecture.data.net.Tls12SocketFactory;
 import com.joye.cleanarchitecture.data.net.UserAgentHeader;
-import com.joye.cleanarchitecture.data.utils.MyLog;
+import com.joye.cleanarchitecture.domain.utils.MyLog;
 
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -63,7 +67,10 @@ public class OkHttp3Creator {
     //可重入锁，用于同步
     private ReentrantLock reentrantLock;
 
-    private OkHttpClient okHttpClient;
+    /**
+     * OkHttp实例
+     */
+    private volatile OkHttpClient okHttpClient;
 
     private static final class SingletonHolder {
         private static final OkHttp3Creator okHttp3Creator = new OkHttp3Creator();
@@ -75,6 +82,28 @@ public class OkHttp3Creator {
 
     public static OkHttp3Creator getInstance() {
         return SingletonHolder.okHttp3Creator;
+    }
+
+    /**
+     * 设置调试模式
+     * 打开调试模式可以在网页(chrome://inspect)中查看：
+     * 1、网络请求信息
+     * 2、数据库信息
+     * 3、SharedPreference文件信息
+     * 4、布局层级查看
+     *
+     * @param debug true则打开调试
+     * @return OkHtt3Creator实例
+     */
+    public OkHttp3Creator setDebug(Context context, boolean debug) {
+        if (debug) {
+            Stetho.initialize(Stetho.newInitializerBuilder(context)
+                    .enableDumpapp(Stetho.defaultDumperPluginsProvider(context))
+                    .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(context))
+                    .build());
+            addExtraInterceptor(new StethoInterceptor());
+        }
+        return this;
     }
 
     /**

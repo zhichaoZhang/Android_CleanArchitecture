@@ -12,7 +12,8 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.joye.cleanarchitecture.data.utils.MyLog;
+
+import com.joye.cleanarchitecture.domain.utils.MyLog;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

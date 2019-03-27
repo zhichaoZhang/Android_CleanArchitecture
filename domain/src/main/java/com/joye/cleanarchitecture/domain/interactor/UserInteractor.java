@@ -100,7 +100,7 @@ public class UserInteractor extends BaseInteractor {
     /**
      * 获取用户配置信息
      * <p>
-     * 1.先返回缓存
+     * 1.先返回缓存，缓存不存在则请求网络
      * 2.再返回网络
      *
      * @return Observable<UserConfig>
@@ -110,8 +110,6 @@ public class UserInteractor extends BaseInteractor {
             //忽略获取缓存失败的异常，直接转换为onComplete事件
             return Observable.empty();
         }), userRepository.getUserConfig())
-                .flatMap(userConfig -> {
-                    return userConfigCache.update(userConfig);
-                });
+                .flatMap(userConfigCache::update);
     }
 }

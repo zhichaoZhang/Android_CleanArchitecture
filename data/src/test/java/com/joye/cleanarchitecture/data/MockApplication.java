@@ -6,7 +6,7 @@ import com.joye.cleanarchitecture.data.entity.UserEntity;
 import com.joye.cleanarchitecture.data.net.ResponseWrapper;
 import com.joye.cleanarchitecture.data.net.retrofit.RetrofitServiceCreator;
 import com.joye.cleanarchitecture.data.net.retrofit.service.UserService;
-import com.joye.cleanarchitecture.data.utils.MyLog;
+import com.joye.cleanarchitecture.domain.utils.MyLog;
 
 import org.robolectric.shadows.ShadowLog;
 

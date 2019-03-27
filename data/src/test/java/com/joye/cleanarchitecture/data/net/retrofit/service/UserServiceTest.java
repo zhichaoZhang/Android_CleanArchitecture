@@ -2,7 +2,7 @@ package com.joye.cleanarchitecture.data.net.retrofit.service;
 
 import com.joye.cleanarchitecture.data.RobolectricTest;
 import com.joye.cleanarchitecture.data.entity.UserEntity;
-import com.joye.cleanarchitecture.data.exception.NetErrorException;
+import com.joye.cleanarchitecture.domain.exception.net.NetErrorException;
 import com.joye.cleanarchitecture.data.net.NetHeader;
 import com.joye.cleanarchitecture.data.net.ResponseWrapper;
 import com.joye.cleanarchitecture.data.net.UserAgentHeader;

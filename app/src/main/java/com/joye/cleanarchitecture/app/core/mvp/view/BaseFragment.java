@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -14,13 +15,12 @@ import android.view.ViewGroup;
 
 import com.joye.cleanarchitecture.app.core.dialog.BaseDialog;
 import com.joye.cleanarchitecture.app.core.mvp.presenter.BasePresenter;
-import com.joye.cleanarchitecture.data.utils.MyLog;
+import com.joye.cleanarchitecture.domain.utils.MyLog;
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import dagger.android.support.AndroidSupportInjection;
 
 /**
  * Fragment基类
@@ -55,7 +55,7 @@ public abstract class BaseFragment<P extends BasePresenter<?>> extends Fragment 
         super.onAttach(context);
         MyLog.d("---onAttach---(%s)", CLASS_NAME);
         Activity activity = getActivity();
-        if (activity != null && activity instanceof BaseActivity) {
+        if (activity instanceof BaseActivity) {
             hostActivity = (BaseActivity) activity;
         } else {
             throw new IllegalStateException("the host activity for current fragment must be extends 'BaseActivity'");
@@ -75,13 +75,13 @@ public abstract class BaseFragment<P extends BasePresenter<?>> extends Fragment 
 
     @Nullable
     @Override
-    public final View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public final View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         MyLog.d("---onCreateView---(%s)", CLASS_NAME);
         return onChildCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
-    public final void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public final void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         MyLog.d("---onViewCreated---(%s)", CLASS_NAME);
         unbinder = ButterKnife.bind(this, view);
     }
