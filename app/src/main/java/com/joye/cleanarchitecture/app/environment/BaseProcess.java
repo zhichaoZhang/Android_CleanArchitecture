@@ -19,6 +19,6 @@ public abstract class BaseProcess implements AppProcess {
 
     @Override
     public void init() {
-//        MyLog.setLogImpl(LogImpl.getInstance(mIsDebug));
+        MyLog.setLogImpl(LogImpl.getInstance(mIsDebug));
     }
 }
