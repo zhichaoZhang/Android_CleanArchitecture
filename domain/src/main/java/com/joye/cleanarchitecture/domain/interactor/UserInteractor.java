@@ -8,7 +8,9 @@ import com.joye.cleanarchitecture.domain.executor.ThreadExecutor;
 import com.joye.cleanarchitecture.domain.model.User;
 import com.joye.cleanarchitecture.domain.model.UserConfig;
 import com.joye.cleanarchitecture.domain.repository.Cache;
+import com.joye.cleanarchitecture.domain.repository.IdentityAuth;
 import com.joye.cleanarchitecture.domain.repository.UserRepository;
+import com.joye.cleanarchitecture.domain.utils.MyLog;
 
 import javax.inject.Inject;
 
@@ -28,17 +30,20 @@ public class UserInteractor extends BaseInteractor {
     private final UserRepository userRepository;
     private final Cache<User> userCache;
     private final Cache<UserConfig> userConfigCache;
+    private final IdentityAuth identityAuth;
 
     @Inject
     public UserInteractor(ThreadExecutor threadExecutor,
                           PostExecutionThread postExecutionThread,
                           UserRepository userRepository,
                           Cache<User> userCache,
-                          Cache<UserConfig> userConfigCache) {
+                          Cache<UserConfig> userConfigCache,
+                          IdentityAuth identityAuth) {
         super(threadExecutor, postExecutionThread);
         this.userRepository = userRepository;
         this.userCache = userCache;
         this.userConfigCache = userConfigCache;
+        this.identityAuth = identityAuth;
     }
 
     /**
@@ -70,10 +75,15 @@ public class UserInteractor extends BaseInteractor {
                     return userCache.update(u);
                 })
                 .doOnNext(user -> {
+                    MyLog.d("login user info is %s", user);
                     //用户信息完整性检查
                     if (user.getContact() == null) {
                         throw new UserInfoIncompleteException(EXC_DOMAIN_USER_INFO_INCOMPLETE, "the user's contact does not exist.");
                     }
+
+                    //保存用户session信息，用于自动登录
+                    String sessionId = user.getSessionId();
+                    identityAuth.saveIdentityInfo(sessionId);
                 });
     }
 

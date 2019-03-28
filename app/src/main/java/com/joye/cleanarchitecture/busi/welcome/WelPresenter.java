@@ -63,7 +63,7 @@ public class WelPresenter extends BasePresenter<WelView> {
     /**
      * 切换页面
      */
-    public void switchToNext() {
+    private void switchToNext() {
         //取消倒计时
         cancelCountDown();
 
@@ -72,7 +72,11 @@ public class WelPresenter extends BasePresenter<WelView> {
             @Override
             public void onNext(User value) {
                 super.onNext(value);
-                mView.startActivity(MainActivity.getCallingIntent(context));
+                if (value.isLogged()) {
+                    mView.startActivity(MainActivity.getCallingIntent(context));
+                } else {
+                    mView.startActivity(LoginActivity.getCallingIntent(context));
+                }
             }
 
             @Override

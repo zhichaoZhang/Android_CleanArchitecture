@@ -4,6 +4,7 @@ import com.joye.cleanarchitecture.app.BaseApplication;
 import com.joye.cleanarchitecture.app.di.modules.AllActivityModule;
 import com.joye.cleanarchitecture.app.di.modules.AllFragmentModule;
 import com.joye.cleanarchitecture.app.di.modules.ApplicationModule;
+import com.joye.cleanarchitecture.app.di.modules.EnvironmentModule;
 
 import javax.inject.Singleton;
 
@@ -23,7 +24,8 @@ import dagger.android.support.AndroidSupportInjectionModule;
         AndroidSupportInjectionModule.class,
         AllActivityModule.class,
         AllFragmentModule.class,
-        ApplicationModule.class
+        ApplicationModule.class,
+        EnvironmentModule.class
 })
 public interface ApplicationComponent {
 

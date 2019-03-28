@@ -21,7 +21,7 @@ public class LogImpl {
      */
     private static MyLog.ILog debugLogImpl = new MyLog.ILog() {
         static final int MAX_LOG_LENGTH = 4000;
-        private static final int CALL_STACK_INDEX = 8;
+        private static final int CALL_STACK_INDEX = 4;
         private final Pattern ANONYMOUS_CLASS = Pattern.compile("(\\$\\d+)+$");
 
         /** Return whether a message at {@code priority} should be logged. */

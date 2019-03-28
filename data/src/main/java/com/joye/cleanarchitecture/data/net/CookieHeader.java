@@ -30,6 +30,7 @@ public class CookieHeader extends NetHeader {
     public static class Cookie {
         private String cookieName;
         private String cookieValue;
+        private String domain = "*.*";
 
         public Cookie(String cookieName, String cookieValue) {
             this.cookieName = cookieName;
@@ -42,6 +43,14 @@ public class CookieHeader extends NetHeader {
 
         public String getCookieValue() {
             return cookieValue;
+        }
+
+        public String getDomain() {
+            return domain;
+        }
+
+        public void setDomain(String domain) {
+            this.domain = domain;
         }
     }
 }

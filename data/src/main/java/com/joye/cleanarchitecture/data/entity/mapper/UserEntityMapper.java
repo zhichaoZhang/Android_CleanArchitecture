@@ -22,6 +22,7 @@ public class UserEntityMapper {
         Contact contact = new Contact();
         contact.setMobilePhone(userEntity.mobile);
         user.setContact(contact);
+        user.setSessionId(userEntity.sessionId);
         return user;
     }
 }

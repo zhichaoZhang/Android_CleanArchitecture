@@ -10,7 +10,7 @@ public interface AppProcess {
     /**
      * 推送进程标识
      */
-    public static String TAG_PUSH_PROCESS = ":push";
+    String TAG_PUSH_PROCESS = ":push";
 
     void init();
 }

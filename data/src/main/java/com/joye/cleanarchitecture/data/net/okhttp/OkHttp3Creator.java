@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
+import com.joye.cleanarchitecture.data.net.CookieHeader;
 import com.joye.cleanarchitecture.data.net.NetHeader;
 import com.joye.cleanarchitecture.data.net.Tls12SocketFactory;
 import com.joye.cleanarchitecture.data.net.UserAgentHeader;
@@ -81,6 +82,7 @@ public class OkHttp3Creator {
     }
 
     public static OkHttp3Creator getInstance() {
+        MyLog.d("get OkHttp3Creator instance:%s", SingletonHolder.okHttp3Creator.toString());
         return SingletonHolder.okHttp3Creator;
     }
 
@@ -96,6 +98,7 @@ public class OkHttp3Creator {
      * @return OkHtt3Creator实例
      */
     public OkHttp3Creator setDebug(Context context, boolean debug) {
+        MyLog.d("set OkHttpClient debug: %b", debug);
         if (debug) {
             Stetho.initialize(Stetho.newInitializerBuilder(context)
                     .enableDumpapp(Stetho.defaultDumperPluginsProvider(context))
@@ -158,20 +161,42 @@ public class OkHttp3Creator {
      */
     public OkHttp3Creator addHeader(NetHeader netHeader) {
         if (netHeader != null) {
+            MyLog.d("add header: %s", netHeader.toString());
             mHeaders.add(netHeader);
         }
         return this;
     }
 
     /**
-     * 添加一个http cookie
+     * 添加一个OKHttp格式的 cookie
+     * 用于请求时自动添加到请求头中
      *
      * @param cookie Cookie信息
      * @return OkHtt3Creator实例
      */
-    public OkHttp3Creator addCookie(Cookie cookie) {
+    OkHttp3Creator addCookie(Cookie cookie) {
         if (cookie != null) {
+            MyLog.d("add cookie: %s", cookie.toString());
             mCookies.put(cookie.name(), cookie);
+        }
+        return this;
+    }
+
+    /**
+     * 添加自定义Cookie字段
+     *
+     * @param cookie Cookie实例
+     * @return OkHtt3Creator实例
+     */
+    public OkHttp3Creator addCustomCookie(CookieHeader.Cookie cookie) {
+        if (cookie != null) {
+            String cookieName = cookie.getCookieName();
+            String cookieValue = cookie.getCookieValue();
+            addCookie(new Cookie.Builder()
+                    .name(cookieName)
+                    .value(cookieValue)
+                    .domain(cookie.getDomain())
+                    .build());
         }
         return this;
     }
@@ -192,7 +217,7 @@ public class OkHttp3Creator {
      *
      * @return Cookie列表
      */
-    public Map<String, Cookie> getCookies() {
+    Map<String, Cookie> getCookies() {
         return mCookies;
     }
 
@@ -209,11 +234,13 @@ public class OkHttp3Creator {
      * @return okHttpClient
      */
     private OkHttpClient create() {
+        MyLog.i("create OkHttpClient instance...");
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .connectTimeout(mConnectTimeout, TimeUnit.SECONDS)
                 .readTimeout(mReadTimeout, TimeUnit.SECONDS)
                 .writeTimeout(mWriteTimeout, TimeUnit.SECONDS)
-                .connectionPool(new ConnectionPool())//连接池，复用相同地址的连接
+                //连接池，复用相同地址的连接，默认5个连接，5分钟超时
+                .connectionPool(new ConnectionPool())
                 .followRedirects(true)
                 .followSslRedirects(true)
                 .cookieJar(new OkHttpCookieJar());
@@ -256,13 +283,15 @@ public class OkHttp3Creator {
      * @return okHttpClient
      */
     public OkHttpClient getOkHttpClient() {
-        reentrantLock.lock();
-        try {
-            if (okHttpClient == null) {
-                okHttpClient = create();
+        if (okHttpClient == null) {
+            reentrantLock.lock();
+            try {
+                if (okHttpClient == null) {
+                    okHttpClient = create();
+                }
+            } finally {
+                reentrantLock.unlock();
             }
-        } finally {
-            reentrantLock.unlock();
         }
         return okHttpClient;
     }

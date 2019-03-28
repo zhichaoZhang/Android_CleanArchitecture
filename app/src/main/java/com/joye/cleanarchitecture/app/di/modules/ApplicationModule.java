@@ -37,17 +37,6 @@ import dagger.Provides;
 
 @Module
 public class ApplicationModule {
-    private final BaseApplication application;
-
-    public ApplicationModule(BaseApplication application) {
-        this.application = application;
-    }
-
-    @Singleton
-    @Provides
-    Context provideApplicationContext() {
-        return application.getApplicationContext();
-    }
 
     @Singleton
     @Provides
@@ -96,14 +85,14 @@ public class ApplicationModule {
 
     @Singleton
     @Provides
-    @Named("BaseDomain")
-    RetrofitServiceCreator provideBaseDomainServiceCreator() {
-        return new RetrofitServiceCreator(Config.getBaseDomain());
+    @Named("BaseDomainRetrofit")
+    RetrofitServiceCreator provideBaseDomainServiceCreator(RetrofitServiceCreator retrofitServiceCreator) {
+        return retrofitServiceCreator;
     }
 
     @Singleton
     @Provides
-    UserService provideUserService(@Named("BaseDomain") RetrofitServiceCreator retrofitServiceCreator) {
+    UserService provideUserService(@Named("BaseDomainRetrofit") RetrofitServiceCreator retrofitServiceCreator) {
         return retrofitServiceCreator.createService(UserService.class);
     }
 }

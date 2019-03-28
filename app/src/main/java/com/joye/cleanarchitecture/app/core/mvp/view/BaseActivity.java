@@ -34,7 +34,6 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import dagger.android.AndroidInjection;
 
 /**
  * Activity基类
@@ -92,7 +91,6 @@ public abstract class BaseActivity<B extends BasePresenter<?>> extends AppCompat
      */
     private LoadingDialog loadingDialog;
 
-    @Nullable
     @Inject
     protected B mPresenter;
 

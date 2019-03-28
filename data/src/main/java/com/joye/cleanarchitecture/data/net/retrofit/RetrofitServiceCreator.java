@@ -2,6 +2,9 @@ package com.joye.cleanarchitecture.data.net.retrofit;
 
 import com.joye.cleanarchitecture.data.net.okhttp.OkHttp3Creator;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -21,13 +24,14 @@ public class RetrofitServiceCreator {
      *
      * @param baseUrl 基础网络地址，以/结尾
      */
-    public RetrofitServiceCreator(String baseUrl) {
+    @Inject
+    public RetrofitServiceCreator(@Named("BaseDomain") String baseUrl, OkHttp3Creator okHttp3Creator) {
         retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxErrorHandlingCallAdapterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(OkHttp3Creator.getInstance().getOkHttpClient())
+                .client(okHttp3Creator.getOkHttpClient())
                 .validateEagerly(true)
                 .build();
     }

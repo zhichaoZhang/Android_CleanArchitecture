@@ -2,6 +2,7 @@ package com.joye.cleanarchitecture.widget;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
 /**
@@ -10,7 +11,7 @@ import android.util.AttributeSet;
  * Created by joye on 2017/12/30.
  */
 
-public class BaseTextView extends android.support.v7.widget.AppCompatTextView{
+public class BaseTextView extends AppCompatTextView {
     public BaseTextView(Context context) {
         super(context);
     }

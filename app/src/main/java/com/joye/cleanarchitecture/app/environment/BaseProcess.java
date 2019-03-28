@@ -10,10 +10,10 @@ import com.joye.cleanarchitecture.utils.LogImpl;
  * 进程基础初始化实现
  */
 public abstract class BaseProcess implements AppProcess {
-    protected boolean mIsDebug = BuildConfig.DEBUG;
-    protected Context mCxt;
+    boolean mIsDebug = BuildConfig.DEBUG;
+    Context mCxt;
 
-    public BaseProcess(Context context) {
+    BaseProcess(Context context) {
         this.mCxt = context;
     }
 

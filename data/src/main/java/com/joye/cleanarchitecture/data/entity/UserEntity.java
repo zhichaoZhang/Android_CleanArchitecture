@@ -13,7 +13,7 @@ public class UserEntity {
     public int userId;
     @SerializedName("mobile")
     public String mobile;
-    @SerializedName("seesionid")
+    @SerializedName("sessionid")
     public String sessionId;
 
     @Override
