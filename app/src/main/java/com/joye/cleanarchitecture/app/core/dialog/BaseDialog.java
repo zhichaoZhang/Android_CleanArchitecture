@@ -1,7 +1,7 @@
 package com.joye.cleanarchitecture.app.core.dialog;
 
 import android.content.DialogInterface;
-import android.support.v7.app.AppCompatDialogFragment;
+import androidx.appcompat.app.AppCompatDialogFragment;
 
 /**
  * 对话框基类

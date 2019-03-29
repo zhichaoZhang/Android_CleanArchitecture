@@ -3,11 +3,12 @@ package com.joye.cleanarchitecture.busi.main;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.view.ViewPager;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.viewpager.widget.ViewPager;
 import android.view.KeyEvent;
 
 import com.joye.cleanarchitecture.R;
+import com.joye.cleanarchitecture.R2;
 import com.joye.cleanarchitecture.adapter.FragmentAdapter;
 import com.joye.cleanarchitecture.app.core.mvp.view.BaseActivity;
 import com.joye.cleanarchitecture.app.core.mvp.view.BaseFragment;
@@ -18,9 +19,9 @@ import java.util.List;
 import butterknife.BindView;
 
 public class MainActivity extends BaseActivity {
-    @BindView(R.id.vp_main)
+    @BindView(R2.id.vp_main)
     ViewPager vpMain;
-    @BindView(R.id.navigation)
+    @BindView(R2.id.navigation)
     BottomNavigationView navigationView;
 
     private FragmentAdapter vpAdapter;

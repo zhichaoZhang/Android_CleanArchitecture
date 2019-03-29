@@ -1,7 +1,7 @@
 package com.joye.cleanarchitecture.domain.model.common;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Ignore;
+import androidx.room.ColumnInfo;
+import androidx.room.Ignore;
 
 /**
  * 联系方式

@@ -3,7 +3,7 @@ package com.joye.cleanarchitecture.app;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import com.joye.cleanarchitecture.app.di.components.DaggerApplicationComponent;
 import com.joye.cleanarchitecture.app.di.modules.ApplicationModule;

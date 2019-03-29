@@ -1,6 +1,6 @@
 package com.joye.cleanarchitecture.data.net.retrofit;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.joye.cleanarchitecture.domain.exception.net.NetErrorException;
 import com.joye.cleanarchitecture.domain.exception.net.NetWorkException;

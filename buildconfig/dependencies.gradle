@@ -22,14 +22,14 @@ allprojects {
 ext {
     //Android Property
     androidBuildToolsVersion = "28.0.3"
-    androidMinSdkVersion = 15
-    androidTargetSdkVersion = 26
+    androidMinSdkVersion = 17
+    androidTargetSdkVersion = 28
     androidCompileSdkVersion = 26
 
     //Library
     androidSupportVersion = "27.1.1"
     daggerVersion = '2.16'
-    butterKnifeVersion = '8.8.1'
+    butterKnifeVersion = '10.1.0'
     recyclerViewVersion = '21.0.3'
     rxJavaVersion = '2.2.7'
     rxAndroidVersion = '2.0.2'

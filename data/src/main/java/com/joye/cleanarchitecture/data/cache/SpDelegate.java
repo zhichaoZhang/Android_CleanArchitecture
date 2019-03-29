@@ -2,7 +2,7 @@ package com.joye.cleanarchitecture.data.cache;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.joye.cleanarchitecture.domain.utils.MyLog;
 

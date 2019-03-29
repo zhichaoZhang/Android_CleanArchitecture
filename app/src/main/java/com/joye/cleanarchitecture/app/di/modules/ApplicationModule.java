@@ -1,12 +1,10 @@
 package com.joye.cleanarchitecture.app.di.modules;
 
-import android.arch.persistence.room.Room;
+import androidx.room.Room;
 import android.content.Context;
 
-import com.joye.cleanarchitecture.app.BaseApplication;
 import com.joye.cleanarchitecture.app.Config;
 import com.joye.cleanarchitecture.app.UIThread;
-import com.joye.cleanarchitecture.data.cache.SpDelegate;
 import com.joye.cleanarchitecture.data.cache.UserCache;
 import com.joye.cleanarchitecture.data.cache.UserConfigCache;
 import com.joye.cleanarchitecture.data.cache.database.AppDatabase;

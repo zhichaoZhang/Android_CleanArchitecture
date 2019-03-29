@@ -1,10 +1,9 @@
 package com.joye.cleanarchitecture.app.core.mvp.view;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.joye.cleanarchitecture.app.core.mvp.presenter.BasePresenter;
-import com.joye.cleanarchitecture.app.core.mvp.view.BaseActivity;
 
 import dagger.android.AndroidInjection;
 

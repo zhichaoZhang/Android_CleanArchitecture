@@ -8,10 +8,10 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
 import com.joye.cleanarchitecture.R;
+import com.joye.cleanarchitecture.R2;
 import com.joye.cleanarchitecture.app.core.mvp.view.BaseInjectActivity;
 import com.joye.cleanarchitecture.widget.BaseEditText;
 
-import java.util.Iterator;
 import java.util.Set;
 
 import butterknife.BindView;
@@ -23,11 +23,11 @@ import butterknife.OnEditorAction;
  */
 public class LoginActivity extends BaseInjectActivity<LoginPresenter> implements LoginView {
 
-    @BindView(R.id.account)
+    @BindView(R2.id.account)
     AutoCompleteTextView etAccount;
-    @BindView(R.id.password)
+    @BindView(R2.id.password)
     BaseEditText etPassword;
-    @BindView(R.id.btn_sign_in)
+    @BindView(R2.id.btn_sign_in)
     Button btnLogin;
 
     public static Intent getCallingIntent(Context context) {
@@ -66,12 +66,12 @@ public class LoginActivity extends BaseInjectActivity<LoginPresenter> implements
         btnLogin.setEnabled(loginBtnEnable);
     }
 
-    @OnClick(R.id.btn_sign_in)
+    @OnClick(R2.id.btn_sign_in)
     public void onClickLoginBtn() {
         confirmLogin();
     }
 
-    @OnEditorAction(R.id.password)
+    @OnEditorAction(R2.id.password)
     public boolean onClickConfirmEditor(int imeId) {
         if (imeId == 6) {
             confirmLogin();

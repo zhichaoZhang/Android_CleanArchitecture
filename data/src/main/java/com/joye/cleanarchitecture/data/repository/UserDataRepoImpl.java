@@ -58,7 +58,7 @@ public class UserDataRepoImpl implements UserRepository {
     public Observable<UserConfig> getUserConfig() {
         UserConfig userConfig = new UserConfig();
         userConfig.setAdImageUrl("https://www.baidu.com");
-        userConfig.setWelDelayDuration(5);
+        userConfig.setWelDelayDuration(3);
         return Observable.just(userConfig);
     }
 }

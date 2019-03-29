@@ -64,13 +64,13 @@ dependencies {
     implementation project(':domain')
     def dataDependencies = rootProject.ext.dataDependencies
     def testDependencies = rootProject.ext.dataTestDependencies
-    api dataDependencies.androidAnnotations
+//    api dataDependencies.androidAnnotations
     implementation dataDependencies.retrofit
     implementation dataDependencies.retrofitRxjavaAdapter
     implementation dataDependencies.retrofitGsonConverter
-    api dataDependencies.room
-    annotationProcessor dataDependencies.roomCompiler
-    implementation dataDependencies.roomRxjava2
+    api 'androidx.room:room-runtime:2.1.0-alpha06'
+    annotationProcessor 'androidx.room:room-compiler:2.1.0-alpha06'
+    implementation 'androidx.room:room-rxjava2:2.1.0-alpha06'
 
 
     debugApi dataDependencies.stetho
@@ -81,9 +81,9 @@ dependencies {
     debugApi dataDependencies.retrofit
 
     testImplementation testDependencies.robolectric
-    testImplementation testDependencies.room
+    testImplementation 'androidx.room:room-testing:2.1.0-alpha06'
     testImplementation testDependencies.mockito
 
-    androidTestImplementation testDependencies.testRunner
-    androidTestImplementation testDependencies.androidAnnotations
+    androidTestImplementation 'androidx.test:runner:1.1.2-alpha02'
+    androidTestImplementation 'androidx.annotation:annotation:1.1.0-alpha02'
 }

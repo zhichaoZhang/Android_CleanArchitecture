@@ -1,6 +1,6 @@
 package com.joye.cleanarchitecture.data.executor;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.joye.cleanarchitecture.domain.executor.ThreadExecutor;
 

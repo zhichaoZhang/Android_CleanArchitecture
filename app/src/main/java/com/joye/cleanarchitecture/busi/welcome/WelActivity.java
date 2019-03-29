@@ -1,10 +1,11 @@
 package com.joye.cleanarchitecture.busi.welcome;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.widget.TextView;
 
 import com.joye.cleanarchitecture.R;
+import com.joye.cleanarchitecture.R2;
 import com.joye.cleanarchitecture.app.core.mvp.view.BaseInjectActivity;
 import com.joye.cleanarchitecture.domain.utils.MyLog;
 
@@ -18,7 +19,7 @@ import butterknife.BindView;
 
 public class WelActivity extends BaseInjectActivity<WelPresenter> implements WelView {
 
-    @BindView(R.id.tv_countdown)
+    @BindView(R2.id.tv_countdown)
     TextView tvCountdown;
 
     @Override
