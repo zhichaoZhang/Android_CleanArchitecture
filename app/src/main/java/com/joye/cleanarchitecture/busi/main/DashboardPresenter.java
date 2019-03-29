@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.joye.cleanarchitecture.app.UIObserver;
 import com.joye.cleanarchitecture.app.core.mvp.presenter.BasePresenter;
 import com.joye.cleanarchitecture.busi.login.LoginActivity;
+import com.joye.cleanarchitecture.domain.interactor.RxOptional;
 import com.joye.cleanarchitecture.domain.interactor.UserInteractor;
 
 import javax.inject.Inject;
@@ -45,8 +46,8 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
      */
     public void logout() {
         mView.showLoading("正在退出...");
-        Observable<Void> logoutObservable = userInteractor.logout();
-        userInteractor.execute(logoutObservable, new UIObserver<Void>(mView) {
+        Observable<RxOptional<Void>> logoutObservable = userInteractor.logout();
+        userInteractor.execute(logoutObservable, new UIObserver<RxOptional<Void>>(mView) {
             @Override
             public void onComplete() {
                 super.onComplete();

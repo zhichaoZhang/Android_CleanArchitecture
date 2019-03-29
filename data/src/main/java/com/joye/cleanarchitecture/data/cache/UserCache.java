@@ -3,6 +3,7 @@ package com.joye.cleanarchitecture.data.cache;
 import com.joye.cleanarchitecture.data.cache.database.UserDao;
 import com.joye.cleanarchitecture.data.cache.exception.CacheUserException;
 import com.joye.cleanarchitecture.data.cache.exception.ReadUserCacheException;
+import com.joye.cleanarchitecture.domain.interactor.RxOptional;
 import com.joye.cleanarchitecture.domain.utils.MyLog;
 import com.joye.cleanarchitecture.domain.exception.ExceptionCode;
 import com.joye.cleanarchitecture.domain.executor.PostExecutionThread;
@@ -68,13 +69,14 @@ public class UserCache extends BaseInteractor implements Cache<User> {
     }
 
     @Override
-    public Observable<Void> invalidate() {
+    public Observable<RxOptional<Void>> invalidate() {
         return Observable.create(emitter -> {
             User user = mMemUser;
             user.setLogged(false);
             user.setUpdateTime(System.currentTimeMillis());
             userDao.insertUser(user);
             mMemUser = null;
+            emitter.onNext(new RxOptional<>(null));
             emitter.onComplete();
         });
     }

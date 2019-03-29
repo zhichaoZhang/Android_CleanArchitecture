@@ -1,5 +1,7 @@
 package com.joye.cleanarchitecture.domain.repository;
 
+import com.joye.cleanarchitecture.domain.interactor.RxOptional;
+
 import io.reactivex.Observable;
 
 /**
@@ -28,7 +30,7 @@ public interface Cache<T> {
     /**
      * 使缓存无效
      *
-     * @return Observable<Void>
+     * @return Observable<RxOptional<Void>>
      */
-    Observable<Void> invalidate();
+    Observable<RxOptional<Void>> invalidate();
 }

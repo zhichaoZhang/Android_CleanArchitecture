@@ -178,4 +178,20 @@ public class UIObserver<T> extends DefaultObserver<T> {
 }
 ```
 
+### 单元测试
+
+执行本地单元测试命令为：
+
+```
+./gradlew app:testDebugUnitTest
+```
+
+测试报告地址：
+
+```
+path_to_your_project/app/build/reports/tests/
+path_to_your_project/app/build/reports/test-results/
+```
+
+
 

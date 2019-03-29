@@ -9,6 +9,7 @@ import com.joye.cleanarchitecture.app.di.components.DaggerApplicationComponent;
 import com.joye.cleanarchitecture.app.di.modules.ApplicationModule;
 import com.joye.cleanarchitecture.app.di.modules.EnvironmentModule;
 import com.joye.cleanarchitecture.app.environment.AppProcess;
+import com.joye.cleanarchitecture.domain.utils.MyLog;
 
 import javax.inject.Inject;
 
@@ -39,7 +40,7 @@ public class BaseApplication extends Application implements HasActivityInjector,
     @Override
     public void onCreate() {
         super.onCreate();
-
+        MyLog.d("---BaseApplication onCreate()---");
         DaggerApplicationComponent.builder()
                 .environmentModule(new EnvironmentModule(this))
                 .applicationModule(new ApplicationModule())

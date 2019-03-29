@@ -24,7 +24,6 @@ public class MainProcess extends BaseProcess {
     @Override
     public void init() {
         super.init();
-        okHttp3Creator.setDebug(mCxt, mIsDebug);
         identityAuth.httpAuth();
     }
 }

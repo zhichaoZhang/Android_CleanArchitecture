@@ -1,12 +1,16 @@
-package com.joye.cleanarchitecture.data;
+package com.joye.cleanarchitecture;
 
 import android.content.Context;
+
+import com.joye.cleanarchitecture.domain.executor.PostExecutionThread;
+import com.joye.cleanarchitecture.domain.executor.ThreadExecutor;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
+import org.robolectric.shadows.ShadowLog;
 
 import joye.com.data.BuildConfig;
 
@@ -17,16 +21,20 @@ import joye.com.data.BuildConfig;
  */
 
 @RunWith(RobolectricTestRunner.class)
-@Config(application = MockApplication.class,
-        constants = BuildConfig.class
+@Config(application = MockApplication.class, constants = BuildConfig.class
 )
 public abstract class RobolectricTest {
     public static final String BASE_DOMAIN = "https://o.qfpay.com/";
     protected Context mContext;
+    protected ThreadExecutor threadExecutor;
+    protected PostExecutionThread postExecutionThread;
 
     @Before
     public void setUp() throws Exception {
         mContext = MockApplication.getInstance();
+        ShadowLog.stream = System.out;
         MockitoAnnotations.initMocks(this);
+        threadExecutor = new TestJobExecutor();
+        postExecutionThread = new TestPostExecutionThread();
     }
 }

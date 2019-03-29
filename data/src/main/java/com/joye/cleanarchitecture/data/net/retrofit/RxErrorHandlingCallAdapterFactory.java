@@ -1,5 +1,7 @@
 package com.joye.cleanarchitecture.data.net.retrofit;
 
+import android.support.annotation.NonNull;
+
 import com.joye.cleanarchitecture.domain.exception.net.NetErrorException;
 import com.joye.cleanarchitecture.domain.exception.net.NetWorkException;
 import com.joye.cleanarchitecture.domain.exception.net.UnknownException;
@@ -34,15 +36,15 @@ public class RxErrorHandlingCallAdapterFactory extends CallAdapter.Factory {
     }
 
     @Override
-    public CallAdapter<?, ?> get(Type returnType, Annotation[] annotations, Retrofit retrofit) {
+    public CallAdapter<?, ?> get(@NonNull Type returnType, @NonNull Annotation[] annotations, @NonNull Retrofit retrofit) {
         return new RxCallAdapterWrapper(original.get(returnType, annotations, retrofit));
     }
 
-    private static class RxCallAdapterWrapper<R> implements CallAdapter<R, Observable> {
+    private static class RxCallAdapterWrapper<R> implements CallAdapter<R, Observable<?>> {
 
-        private final CallAdapter<?, ?> wrapped;
+        private final CallAdapter<R, Observable<?>> wrapped;
 
-        private RxCallAdapterWrapper(CallAdapter<?, ?> wrapped) {
+        private RxCallAdapterWrapper(CallAdapter<R, Observable<?>> wrapped) {
             this.wrapped = wrapped;
         }
 
@@ -52,8 +54,8 @@ public class RxErrorHandlingCallAdapterFactory extends CallAdapter.Factory {
         }
 
         @Override
-        public Observable<R> adapt(Call call) {
-            return ((Observable<R>) wrapped.adapt(call)).onErrorResumeNext(throwable -> {
+        public Observable<?> adapt(@NonNull Call<R> call) {
+            return wrapped.adapt(call).onErrorResumeNext(throwable -> {
                 return Observable.error(transferRetrofitError(throwable));
             });
         }

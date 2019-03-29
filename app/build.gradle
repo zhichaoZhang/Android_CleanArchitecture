@@ -98,10 +98,10 @@ dependencies {
     testImplementation appTestDependencies.junit
     testImplementation appTestDependencies.mockito
     testImplementation appTestDependencies.robolectric
+    testImplementation appTestDependencies.testMonitor
     androidTestImplementation appTestDependencies.dexmaker
     androidTestImplementation appTestDependencies.dexmakerMockito
     androidTestImplementation appTestDependencies.espresso
-    androidTestImplementation appTestDependencies.testingSupportLib
 
     //Development
     implementation developmentDependencies.leakCanary

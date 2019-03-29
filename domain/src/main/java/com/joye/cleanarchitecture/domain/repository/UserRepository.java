@@ -1,5 +1,6 @@
 package com.joye.cleanarchitecture.domain.repository;
 
+import com.joye.cleanarchitecture.domain.interactor.RxOptional;
 import com.joye.cleanarchitecture.domain.model.User;
 import com.joye.cleanarchitecture.domain.model.UserConfig;
 
@@ -29,7 +30,7 @@ public interface UserRepository {
      *
      * @return Observable<Void>
      */
-    Observable<Void> logoutForUser();
+    Observable<RxOptional<Void>> logoutForUser();
 
     List<User> loadAllUser();
 

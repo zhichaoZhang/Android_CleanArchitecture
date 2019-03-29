@@ -1,4 +1,4 @@
-package joye.com.cleanarchitecture;
+package com.joye.cleanarchitecture;
 
 import android.app.Application;
 

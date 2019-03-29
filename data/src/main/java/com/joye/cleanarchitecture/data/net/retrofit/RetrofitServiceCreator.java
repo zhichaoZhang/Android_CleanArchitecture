@@ -30,7 +30,7 @@ public class RetrofitServiceCreator {
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxErrorHandlingCallAdapterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+//                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttp3Creator.getOkHttpClient())
                 .validateEagerly(true)
                 .build();

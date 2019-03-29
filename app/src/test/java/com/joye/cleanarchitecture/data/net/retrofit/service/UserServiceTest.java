@@ -1,14 +1,14 @@
 package com.joye.cleanarchitecture.data.net.retrofit.service;
 
-import com.joye.cleanarchitecture.data.RobolectricTest;
+import com.joye.cleanarchitecture.RobolectricTest;
 import com.joye.cleanarchitecture.data.entity.UserEntity;
-import com.joye.cleanarchitecture.domain.exception.net.NetErrorException;
 import com.joye.cleanarchitecture.data.net.NetHeader;
 import com.joye.cleanarchitecture.data.net.ResponseWrapper;
 import com.joye.cleanarchitecture.data.net.UserAgentHeader;
 import com.joye.cleanarchitecture.data.net.okhttp.OkHttp3Creator;
 import com.joye.cleanarchitecture.data.net.retrofit.RetrofitServiceCreator;
 import com.joye.cleanarchitecture.domain.exception.ExceptionCode;
+import com.joye.cleanarchitecture.domain.exception.net.NetErrorException;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,7 +17,9 @@ import org.junit.Test;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * 用户接口测试
@@ -37,7 +39,7 @@ public class UserServiceTest extends RobolectricTest {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        userService = new RetrofitServiceCreator(BASE_DOMAIN).createService(UserService.class);
+        userService = new RetrofitServiceCreator(BASE_DOMAIN, OkHttp3Creator.getInstance()).createService(UserService.class);
     }
 
     @Test
@@ -53,8 +55,8 @@ public class UserServiceTest extends RobolectricTest {
 
                     @Override
                     public void onNext(ResponseWrapper<UserEntity> value) {
-                        assertTrue(value != null);
-                        assertTrue(value.getRespcd() == ExceptionCode.NET_REQUEST_SUCCESS);
+                        assertNotNull(value);
+                        assertEquals(value.getRespcd(), ExceptionCode.NET_REQUEST_SUCCESS);
                         assertTrue(value.getData().mobile.equalsIgnoreCase(account));
                     }
 
@@ -83,7 +85,7 @@ public class UserServiceTest extends RobolectricTest {
 
                     @Override
                     public void onNext(ResponseWrapper<UserEntity> value) {
-                        assertTrue(value != null);
+                        assertNotNull(value);
                         assertTrue(value.getRespcd() != ExceptionCode.NET_REQUEST_SUCCESS);
                     }
 
@@ -101,7 +103,7 @@ public class UserServiceTest extends RobolectricTest {
 
     @Test
     public void testDomainError() throws Exception {
-        UserService userService = new RetrofitServiceCreator("https://o.qfpay2.com/").createService(UserService.class);
+        UserService userService = new RetrofitServiceCreator("https://o.qfpay2.com/", OkHttp3Creator.getInstance()).createService(UserService.class);
         String account = "15330059740";
         String passwd = "059740";
         userService.login(account, passwd)
@@ -133,7 +135,7 @@ public class UserServiceTest extends RobolectricTest {
     public void testOriginRequestHeader() throws Exception {
         OkHttp3Creator.getInstance().addHeader(new OriginHeader("Origin", "https://www.joye.com"))
                 .addHeader(new UserAgentHeader("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36"));
-        UserService userService = new RetrofitServiceCreator("https://o.qfpay.com/").createService(UserService.class);
+        UserService userService = new RetrofitServiceCreator("https://o.qfpay.com/", OkHttp3Creator.getInstance()).createService(UserService.class);
         userService.updateShopPassWd("123", "123")
                 .subscribe(new Observer<ResponseWrapper>() {
                     @Override

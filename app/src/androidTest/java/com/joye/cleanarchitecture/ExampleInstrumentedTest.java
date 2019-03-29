@@ -1,4 +1,4 @@
-package joye.com.cleanarchitecture;
+package com.joye.cleanarchitecture;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("joye.com.cleanarchitecture", appContext.getPackageName());
+        assertEquals("com.joye.cleanarchitecture", appContext.getPackageName());
     }
 }

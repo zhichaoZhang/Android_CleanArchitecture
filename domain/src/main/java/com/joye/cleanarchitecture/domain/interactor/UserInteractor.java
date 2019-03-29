@@ -101,7 +101,7 @@ public class UserInteractor extends BaseInteractor {
      *
      * @return 退出登录操作实例
      */
-    public Observable<Void> logout() {
+    public Observable<RxOptional<Void>> logout() {
         return userRepository.logoutForUser()
                 .flatMap(aVoid -> UserInteractor.this.getLoggedUser())
                 .flatMap(user -> userCache.invalidate());

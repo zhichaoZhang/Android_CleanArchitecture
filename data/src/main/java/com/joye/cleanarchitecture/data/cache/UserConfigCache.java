@@ -2,6 +2,7 @@ package com.joye.cleanarchitecture.data.cache;
 
 import com.google.gson.Gson;
 import com.joye.cleanarchitecture.data.cache.exception.ReadUserConfigCacheException;
+import com.joye.cleanarchitecture.domain.interactor.RxOptional;
 import com.joye.cleanarchitecture.domain.utils.MyLog;
 import com.joye.cleanarchitecture.domain.exception.ExceptionCode;
 import com.joye.cleanarchitecture.domain.model.UserConfig;
@@ -60,10 +61,11 @@ public class UserConfigCache implements Cache<UserConfig> {
     }
 
     @Override
-    public Observable<Void> invalidate() {
+    public Observable<RxOptional<Void>> invalidate() {
         return Observable.create(emitter -> {
             spDelegate.remove(KEY_USER_CONFIG);
             userConfig = null;
+            emitter.onNext(new RxOptional<>(null));
             emitter.onComplete();
         });
     }

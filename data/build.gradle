@@ -73,16 +73,16 @@ dependencies {
     implementation dataDependencies.roomRxjava2
 
 
-    debugImplementation dataDependencies.stetho
-    debugImplementation (dataDependencies.stethoOkHttp) {
+    debugApi dataDependencies.stetho
+    debugApi (dataDependencies.stethoOkHttp) {
         //移除stetho自带的OkHttp依赖
         exclude group: 'com.squareup.okhttp3', module: 'okhttp'
     }
-    testImplementation testDependencies.junit
-    testImplementation testDependencies.assertj
-    testImplementation testDependencies.mockito
+    debugApi dataDependencies.retrofit
+
     testImplementation testDependencies.robolectric
     testImplementation testDependencies.room
+    testImplementation testDependencies.mockito
 
     androidTestImplementation testDependencies.testRunner
     androidTestImplementation testDependencies.androidAnnotations

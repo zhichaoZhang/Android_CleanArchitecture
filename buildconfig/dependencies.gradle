@@ -48,6 +48,7 @@ ext {
     espressoVersion = '2.2.2'
     testingSupportLibVersion = '0.1'
     testRunnerVersion = '1.0.1'
+    testMonitorVersion = '1.0.2'
 
     //Development
     leakCanaryVersion = '1.5.4'
@@ -77,6 +78,7 @@ ext {
             espresso         : "com.android.support.test.espresso:espresso-core:${espressoVersion}",
             testingSupportLib: "com.android.support.test:testing-support-lib:${testingSupportLibVersion}",
             robolectric      : "org.robolectric:robolectric:${robolectricVersion}",
+            testMonitor      : "com.android.support.test:monitor:${testMonitorVersion}",
     ]
 
     domainDependencies = [

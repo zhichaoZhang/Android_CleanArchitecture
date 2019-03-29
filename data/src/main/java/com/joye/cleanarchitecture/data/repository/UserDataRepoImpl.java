@@ -4,6 +4,7 @@ import com.joye.cleanarchitecture.data.cache.database.UserDao;
 import com.joye.cleanarchitecture.data.entity.mapper.UserEntityMapper;
 import com.joye.cleanarchitecture.data.net.ServerResultFunc;
 import com.joye.cleanarchitecture.data.net.retrofit.service.UserService;
+import com.joye.cleanarchitecture.domain.interactor.RxOptional;
 import com.joye.cleanarchitecture.domain.model.User;
 import com.joye.cleanarchitecture.domain.model.UserConfig;
 import com.joye.cleanarchitecture.domain.repository.UserRepository;
@@ -13,6 +14,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 /**
  * 用户数据仓库实现
@@ -41,10 +43,10 @@ public class UserDataRepoImpl implements UserRepository {
     }
 
     @Override
-    public Observable<Void> logoutForUser() {
+    public Observable<RxOptional<Void>> logoutForUser() {
         return userService.logout()
                 .map(new ServerResultFunc<>())
-                .map(r -> r);
+                .map(RxOptional::new);
     }
 
     @Override

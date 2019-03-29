@@ -6,8 +6,10 @@ import com.joye.cleanarchitecture.R;
 import com.joye.cleanarchitecture.busi.main.MainActivity;
 import com.joye.cleanarchitecture.domain.interactor.UserInteractor;
 import com.joye.cleanarchitecture.domain.model.User;
+import com.joye.cleanarchitecture.domain.model.UserConfig;
 import com.joye.cleanarchitecture.domain.model.common.Contact;
 import com.joye.cleanarchitecture.domain.repository.Cache;
+import com.joye.cleanarchitecture.domain.repository.IdentityAuth;
 import com.joye.cleanarchitecture.domain.repository.UserRepository;
 
 import org.junit.Before;
@@ -16,7 +18,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
 import io.reactivex.Observable;
-import joye.com.cleanarchitecture.RobolectricTest;
+import com.joye.cleanarchitecture.RobolectricTest;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -41,6 +43,12 @@ public class LoginPresenterTest extends RobolectricTest {
     @Mock
     Cache<User> userCache;
 
+    @Mock
+    Cache<UserConfig> userConfigCache;
+
+    @Mock
+    IdentityAuth identityAuth;
+
     UserInteractor userInteractor;
     LoginPresenter loginPresenter;
 
@@ -49,14 +57,14 @@ public class LoginPresenterTest extends RobolectricTest {
     public void setUp() throws Exception {
         super.setUp();
         //这里做了一个妥协，正确方式应该是mock UserInteractor类，但需要依赖BaseInteractor的execute方法，所以mock了UserRepository类
-        userInteractor = new UserInteractor(threadExecutor, postExecutionThread, userRepository, userCache);
+        userInteractor = new UserInteractor(threadExecutor, postExecutionThread, userRepository, userCache, userConfigCache, identityAuth);
         loginPresenter = new LoginPresenter(mContext, loginView, userInteractor);
     }
 
     @Test
     public void testLoginSuc() throws Exception {
         Observable<User> result = Observable.just(createNormalUser(1));
-        when(userRepository.saveUser(any(User.class))).thenReturn(true);
+        when(userCache.update(any(User.class))).thenReturn(result);
         //假设登录成功，返回正常
         when(userRepository.loginForUser(MOCK_ACCOUNT, MOCK_PASSWD)).thenReturn(result);
         //调用Presenter的登录操作，实际操作中会取出账号和密码编辑框中的输入，这里输入假数据
@@ -92,6 +100,7 @@ public class LoginPresenterTest extends RobolectricTest {
         Contact contact = new Contact();
         contact.setMobilePhone("1323123123");
         user.setContact(contact);
+        user.setSessionId("83cca947-8184-43d6-a6cf-23ab7484449d");
         return user;
     }
 }

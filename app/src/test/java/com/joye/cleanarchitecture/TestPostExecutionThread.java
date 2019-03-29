@@ -1,8 +1,8 @@
-package com.joye.cleanarchitecture.domain.executor;
+package com.joye.cleanarchitecture;
+
+import com.joye.cleanarchitecture.domain.executor.PostExecutionThread;
 
 import io.reactivex.Scheduler;
-import io.reactivex.internal.schedulers.IoScheduler;
-import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.schedulers.Schedulers;
 
 /**
