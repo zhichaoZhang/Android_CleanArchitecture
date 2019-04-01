@@ -3,14 +3,12 @@ package com.joye.cleanarchitecture.data.cache;
 import com.joye.cleanarchitecture.data.cache.database.UserDao;
 import com.joye.cleanarchitecture.data.cache.exception.CacheUserException;
 import com.joye.cleanarchitecture.data.cache.exception.ReadUserCacheException;
-import com.joye.cleanarchitecture.domain.interactor.RxOptional;
-import com.joye.cleanarchitecture.domain.utils.MyLog;
 import com.joye.cleanarchitecture.domain.exception.ExceptionCode;
-import com.joye.cleanarchitecture.domain.executor.PostExecutionThread;
-import com.joye.cleanarchitecture.domain.executor.ThreadExecutor;
 import com.joye.cleanarchitecture.domain.interactor.BaseInteractor;
+import com.joye.cleanarchitecture.domain.interactor.RxOptional;
 import com.joye.cleanarchitecture.domain.model.User;
 import com.joye.cleanarchitecture.domain.repository.Cache;
+import com.joye.cleanarchitecture.domain.utils.MyLog;
 
 import javax.inject.Inject;
 
@@ -27,10 +25,7 @@ public class UserCache extends BaseInteractor implements Cache<User> {
     private User mMemUser;
 
     @Inject
-    public UserCache(UserDao userDao,
-                     ThreadExecutor threadExecutor,
-                     PostExecutionThread postExecutionThread) {
-        super(threadExecutor, postExecutionThread);
+    public UserCache(UserDao userDao) {
         this.userDao = userDao;
     }
 

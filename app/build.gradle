@@ -80,7 +80,6 @@ dependencies {
     def appTestDependencies = rootProject.ext.appTestDependencies
     def developmentDependencies = rootProject.ext.developmentDependencies
 
-    implementation 'com.google.android.material:material:1.1.0-alpha05'
     annotationProcessor appDependencies.daggerCompiler
     implementation appDependencies.dagger
     implementation appDependencies.daggerAndroid
@@ -91,18 +90,18 @@ dependencies {
         //移除butterknife自带的注解
         exclude group: 'com.android.support', module: 'support-annotation'
     }
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha03'
+    implementation appDependencies.recyclerView
     implementation appDependencies.rxAndroid
-//    implementation appDependencies.appCompatV7
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
+    implementation appDependencies.constraintLayout
+    implementation appDependencies.supportDesign
 
     testImplementation appTestDependencies.junit
     testImplementation appTestDependencies.mockito
     testImplementation appTestDependencies.robolectric
-    testImplementation 'androidx.test:monitor:1.1.2-alpha02'
+    testImplementation appTestDependencies.testMonitor
     androidTestImplementation appTestDependencies.dexmaker
     androidTestImplementation appTestDependencies.dexmakerMockito
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha02'
+    androidTestImplementation appTestDependencies.espresso
 
     //Development
     implementation developmentDependencies.leakCanary

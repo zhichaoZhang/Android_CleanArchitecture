@@ -2,6 +2,7 @@ package com.joye.cleanarchitecture.data.cache;
 
 import com.google.gson.Gson;
 import com.joye.cleanarchitecture.data.cache.exception.ReadUserConfigCacheException;
+import com.joye.cleanarchitecture.domain.interactor.BaseInteractor;
 import com.joye.cleanarchitecture.domain.interactor.RxOptional;
 import com.joye.cleanarchitecture.domain.utils.MyLog;
 import com.joye.cleanarchitecture.domain.exception.ExceptionCode;
@@ -18,7 +19,7 @@ import io.reactivex.Observable;
  * Created by joye on 2018/8/23.
  */
 
-public class UserConfigCache implements Cache<UserConfig> {
+public class UserConfigCache extends BaseInteractor implements Cache<UserConfig> {
     private static final String KEY_USER_CONFIG = "STRING_USER_CONFIG";
     private UserConfig userConfig;
     private final SpDelegate spDelegate;

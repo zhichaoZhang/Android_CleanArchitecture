@@ -41,11 +41,6 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         MyLog.d("user interactor is %s", mUserInteractor);
     }
 
-    @Override
-    public void onDestroy() {
-        mUserInteractor.disposeAll();
-    }
-
     /**
      * 登录操作
      *
@@ -64,7 +59,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         mView.setLoginBtnEnable(false);
         mView.showLoading(mCtx.getString(R.string.logging_in));
         Observable<User> userObservable = mUserInteractor.login(account, passwd);
-        mUserInteractor.execute(userObservable, new UIObserver<User>(mView) {
+        execute(userObservable, new UIObserver<User>(mView) {
             @Override
             public void onNext(User value) {
                 super.onNext(value);

@@ -24,20 +24,22 @@ ext {
     androidBuildToolsVersion = "28.0.3"
     androidMinSdkVersion = 17
     androidTargetSdkVersion = 28
-    androidCompileSdkVersion = 26
+    androidCompileSdkVersion = 28
 
     //Library
     androidSupportVersion = "27.1.1"
+    androidAnnotationVersion = "1.1.0-alpha02"
+    androidMaterialVersion = "1.1.0-alpha05"
     daggerVersion = '2.16'
     butterKnifeVersion = '10.1.0'
-    recyclerViewVersion = '21.0.3'
+    recyclerViewVersion = '1.1.0-alpha03'
     rxJavaVersion = '2.2.7'
     rxAndroidVersion = '2.0.2'
     javaxAnnotationVersion = '1.0'
     javaxInjectVersion = '1'
-    constraintLayoutVersion = '1.1.2'
+    constraintLayoutVersion = '2.0.0-alpha3'
     retrofitVersion = '2.4.0'//Retrofit2自带OkHttpClient依赖
-    roomVersion = '1.1.1'//数据库
+    roomVersion = '2.1.0-alpha04'//数据库
 
     //Testing
     robolectricVersion = '3.8'
@@ -45,10 +47,10 @@ ext {
     assertJVersion = '1.7.1'
     mockitoVersion = '2.1.0'
     dexmakerVersion = '1.0'
-    espressoVersion = '2.2.2'
+    espressoVersion = '3.2.0-alpha02'
     testingSupportLibVersion = '0.1'
-    testRunnerVersion = '1.0.1'
-    testMonitorVersion = '1.0.2'
+    testRunnerVersion = '1.1.2-alpha02'
+    testMonitorVersion = '1.1.2-alpha02'
 
     //Development
     leakCanaryVersion = '1.5.4'
@@ -62,12 +64,12 @@ ext {
             daggerAndroidSupport : "com.google.dagger:dagger-android-support:${daggerVersion}",
             butterKnife          : "com.jakewharton:butterknife:${butterKnifeVersion}",
             butterKnifeCompiler  : "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
-            recyclerView         : "com.android.support:recyclerview-v7:${recyclerViewVersion}",
+            recyclerView         : "androidx.recyclerview:recyclerview:${recyclerViewVersion}",
             rxJava               : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
             rxAndroid            : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
             appCompatV7          : "com.android.support:appcompat-v7:${androidSupportVersion}",
-            constraintLayout     : "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}",
-            supportDesign        : "com.android.support:design:${androidSupportVersion}",
+            constraintLayout     : "androidx.constraintlayout:constraintlayout:${constraintLayoutVersion}",
+            supportDesign        : "com.google.android.material:material:${androidMaterialVersion}",
     ]
 
     appTestDependencies = [
@@ -75,17 +77,17 @@ ext {
             mockito          : "org.mockito:mockito-core:${mockitoVersion}",
             dexmaker         : "com.google.dexmaker:dexmaker:${dexmakerVersion}",
             dexmakerMockito  : "com.google.dexmaker:dexmaker-mockito:${dexmakerVersion}",
-            espresso         : "com.android.support.test.espresso:espresso-core:${espressoVersion}",
+            espresso         : "androidx.test.espresso:espresso-core:${espressoVersion}",
             testingSupportLib: "com.android.support.test:testing-support-lib:${testingSupportLibVersion}",
             robolectric      : "org.robolectric:robolectric:${robolectricVersion}",
-            testMonitor      : "com.android.support.test:monitor:${testMonitorVersion}",
+            testMonitor      : "androidx.test:monitor:${testMonitorVersion}",
     ]
 
     domainDependencies = [
             javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             javaxInject    : "javax.inject:javax.inject:${javaxInjectVersion}",
             rxJava         : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
-            room           : "android.arch.persistence.room:runtime:${roomVersion}",
+            room           : "androidx.room:room-runtime:${roomVersion}",
     ]
 
     domainTestDependencies = [
@@ -98,13 +100,13 @@ ext {
             daggerCompiler       : "com.google.dagger:dagger-compiler:${daggerVersion}",
             dagger               : "com.google.dagger:dagger:${daggerVersion}",
             rxAndroid            : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
-            androidAnnotations   : "com.android.support:support-annotations:${androidSupportVersion}",
+            androidAnnotations   : "androidx.annotation:annotation:${androidAnnotationVersion}",
             retrofit             : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
             retrofitRxjavaAdapter: "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}",
             retrofitGsonConverter: "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
-            room                 : "android.arch.persistence.room:runtime:${roomVersion}",
-            roomCompiler         : "android.arch.persistence.room:compiler:${roomVersion}",
-            roomRxjava2          : "android.arch.persistence.room:rxjava2:${roomVersion}",
+            room                 : "androidx.room:room-runtime:${roomVersion}",
+            roomCompiler         : "androidx.room:room-compiler:${roomVersion}",
+            roomRxjava2          : "androidx.room:room-rxjava2:${roomVersion}",
             stetho               : "com.facebook.stetho:stetho:${stethoVersion}",
             stethoOkHttp         : "com.facebook.stetho:stetho-okhttp3:${stethoVersion}",
     ]
@@ -115,8 +117,8 @@ ext {
             mockito           : "org.mockito:mockito-core:${mockitoVersion}",
             robolectric       : "org.robolectric:robolectric:${robolectricVersion}",
             room              : "android.arch.persistence.room:testing:${roomVersion}",
-            testRunner        : "com.android.support.test:runner:${testRunnerVersion}",
-            androidAnnotations: "com.android.support:support-annotations:${androidSupportVersion}",
+            testRunner        : "androidx.test:runner:${testRunnerVersion}",
+            androidAnnotations: "androidx.annotation:annotation:${androidAnnotationVersion}",
     ]
 
     developmentDependencies = [

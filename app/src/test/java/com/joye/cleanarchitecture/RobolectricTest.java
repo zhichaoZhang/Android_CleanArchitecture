@@ -12,6 +12,9 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowLog;
 
+import io.reactivex.Observable;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 import joye.com.data.BuildConfig;
 
 /**
@@ -21,8 +24,7 @@ import joye.com.data.BuildConfig;
  */
 
 @RunWith(RobolectricTestRunner.class)
-@Config(application = MockApplication.class, constants = BuildConfig.class
-)
+@Config(sdk = 27, application = MockApplication.class, constants = BuildConfig.class)
 public abstract class RobolectricTest {
     public static final String BASE_DOMAIN = "https://o.qfpay.com/";
     protected Context mContext;
@@ -36,5 +38,16 @@ public abstract class RobolectricTest {
         MockitoAnnotations.initMocks(this);
         threadExecutor = new TestJobExecutor();
         postExecutionThread = new TestPostExecutionThread();
+    }
+
+    /**
+     * 执行指定的操作实例
+     *
+     * @param observable         特定操作实例
+     * @param disposableObserver 操作结果观察者
+     */
+    protected <T> void execute(Observable<T> observable, DisposableObserver<T> disposableObserver) {
+        observable.subscribeOn(Schedulers.from(threadExecutor))
+                .observeOn(postExecutionThread.getScheduler()).subscribeWith(disposableObserver);
     }
 }

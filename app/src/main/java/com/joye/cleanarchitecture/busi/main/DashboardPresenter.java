@@ -35,19 +35,13 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
 
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        userInteractor.disposeAll();
-    }
-
     /**
      * 退出登录操作
      */
     public void logout() {
         mView.showLoading("正在退出...");
         Observable<RxOptional<Void>> logoutObservable = userInteractor.logout();
-        userInteractor.execute(logoutObservable, new UIObserver<RxOptional<Void>>(mView) {
+        execute(logoutObservable, new UIObserver<RxOptional<Void>>(mView) {
             @Override
             public void onComplete() {
                 super.onComplete();

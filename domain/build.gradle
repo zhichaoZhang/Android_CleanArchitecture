@@ -22,7 +22,7 @@ dependencies {
     compileOnly domainDependencies.javaxAnnotation
     api domainDependencies.javaxInject
     api domainDependencies.rxJava
-    implementation 'androidx.room:room-runtime:2.1.0-alpha06'
+    implementation domainDependencies.room
 
     testImplementation domainTestDependencies.junit
     testImplementation domainTestDependencies.mockito

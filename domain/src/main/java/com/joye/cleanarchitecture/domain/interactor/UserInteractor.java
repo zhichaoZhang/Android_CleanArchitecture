@@ -3,8 +3,6 @@ package com.joye.cleanarchitecture.domain.interactor;
 import com.joye.cleanarchitecture.domain.exception.CommonDomainException;
 import com.joye.cleanarchitecture.domain.exception.user.UnregisterException;
 import com.joye.cleanarchitecture.domain.exception.user.UserInfoIncompleteException;
-import com.joye.cleanarchitecture.domain.executor.PostExecutionThread;
-import com.joye.cleanarchitecture.domain.executor.ThreadExecutor;
 import com.joye.cleanarchitecture.domain.model.User;
 import com.joye.cleanarchitecture.domain.model.UserConfig;
 import com.joye.cleanarchitecture.domain.repository.Cache;
@@ -33,13 +31,10 @@ public class UserInteractor extends BaseInteractor {
     private final IdentityAuth identityAuth;
 
     @Inject
-    public UserInteractor(ThreadExecutor threadExecutor,
-                          PostExecutionThread postExecutionThread,
-                          UserRepository userRepository,
+    public UserInteractor(UserRepository userRepository,
                           Cache<User> userCache,
                           Cache<UserConfig> userConfigCache,
                           IdentityAuth identityAuth) {
-        super(threadExecutor, postExecutionThread);
         this.userRepository = userRepository;
         this.userCache = userCache;
         this.userConfigCache = userConfigCache;

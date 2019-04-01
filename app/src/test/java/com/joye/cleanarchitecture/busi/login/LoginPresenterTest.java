@@ -57,8 +57,9 @@ public class LoginPresenterTest extends RobolectricTest {
     public void setUp() throws Exception {
         super.setUp();
         //这里做了一个妥协，正确方式应该是mock UserInteractor类，但需要依赖BaseInteractor的execute方法，所以mock了UserRepository类
-        userInteractor = new UserInteractor(threadExecutor, postExecutionThread, userRepository, userCache, userConfigCache, identityAuth);
+        userInteractor = new UserInteractor(userRepository, userCache, userConfigCache, identityAuth);
         loginPresenter = new LoginPresenter(mContext, loginView, userInteractor);
+        loginPresenter.setMockThreadExecutor(threadExecutor, postExecutionThread);
     }
 
     @Test

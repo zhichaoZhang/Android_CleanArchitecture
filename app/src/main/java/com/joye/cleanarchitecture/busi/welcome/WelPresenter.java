@@ -31,7 +31,8 @@ public class WelPresenter extends BasePresenter<WelView> {
     private Cache<User> userCache;
 
     @Inject
-    public WelPresenter(Context context, WelView welView, UserInteractor userInteractor, UserCache userCache) {
+    public WelPresenter(Context context, WelView welView, UserInteractor userInteractor,
+                        UserCache userCache) {
         this.context = context;
         this.userInteractor = userInteractor;
         this.userCache = userCache;
@@ -40,7 +41,7 @@ public class WelPresenter extends BasePresenter<WelView> {
 
     @Override
     public void onCreate(Bundle params) {
-        userInteractor.execute(userInteractor.loadUserConfigInfo(), new UIObserver<UserConfig>(mView) {
+        execute(userInteractor.loadUserConfigInfo(), new UIObserver<UserConfig>(mView) {
             @Override
             public void onNext(UserConfig value) {
                 super.onNext(value);
@@ -68,7 +69,7 @@ public class WelPresenter extends BasePresenter<WelView> {
         cancelCountDown();
 
         //获取用户信息缓存，根据缓存是否存在判断跳转到登录页或主页
-        userInteractor.execute(userCache.get(), new UIObserver<User>(mView) {
+        execute(userCache.get(), new UIObserver<User>(mView) {
             @Override
             public void onNext(User value) {
                 super.onNext(value);

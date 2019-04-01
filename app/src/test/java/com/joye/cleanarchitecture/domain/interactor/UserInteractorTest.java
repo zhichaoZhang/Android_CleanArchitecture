@@ -46,7 +46,7 @@ public class UserInteractorTest extends RobolectricTest {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        userInteractor = new UserInteractor(threadExecutor, postExecutionThread, userRepository, userCache, userConfigCache, identityAuth);
+        userInteractor = new UserInteractor(userRepository, userCache, userConfigCache, identityAuth);
     }
 
     @Test
@@ -60,7 +60,7 @@ public class UserInteractorTest extends RobolectricTest {
         when(userRepository.loginForUser(account, passwd)).thenReturn(Observable.just(user));
         when(userCache.update(user)).thenReturn(Observable.just(user));
 
-        userInteractor.execute(userInteractor.login(account, passwd), new DefaultObserver<User>() {
+        execute(userInteractor.login(account, passwd), new DefaultObserver<User>() {
             @Override
             public void onNext(User value) {
                 System.out.println("onNext: " + value.toString());
@@ -85,7 +85,7 @@ public class UserInteractorTest extends RobolectricTest {
         User user = new User(483425);
         when(userRepository.loginForUser(account, passwd)).thenReturn(Observable.just(user));
         when(userCache.update(user)).thenReturn(Observable.just(user));
-        userInteractor.execute(userInteractor.login(account, passwd), new DefaultObserver<User>() {
+        execute(userInteractor.login(account, passwd), new DefaultObserver<User>() {
             @Override
             public void onNext(User value) {
                 Assert.fail("should not run here.");
@@ -105,7 +105,7 @@ public class UserInteractorTest extends RobolectricTest {
         String passwd = "059740";
         when(userRepository.loginForUser(account, passwd)).thenReturn(Observable.error(new DomainException(ExceptionCode.EXC_DOMAIN_USER_NOT_REGISTER, "账号密码错误")));
 
-        userInteractor.execute(userInteractor.login(account, passwd), new DefaultObserver<User>() {
+        execute(userInteractor.login(account, passwd), new DefaultObserver<User>() {
             @Override
             public void onNext(User value) {
                 System.out.println("onNext: " + value.toString());
@@ -126,7 +126,7 @@ public class UserInteractorTest extends RobolectricTest {
         when(userRepository.logoutForUser()).thenReturn(Observable.just(new RxOptional<>(null)));
         when(userCache.get()).thenReturn(Observable.just(new User(483425)));
         when(userCache.invalidate()).thenReturn(Observable.just(new RxOptional<>(null)));
-        userInteractor.execute(userInteractor.logout(), new DefaultObserver<RxOptional<Void>>() {
+        execute(userInteractor.logout(), new DefaultObserver<RxOptional<Void>>() {
             @Override
             public void onNext(RxOptional<Void> value) {
                 super.onNext(value);
