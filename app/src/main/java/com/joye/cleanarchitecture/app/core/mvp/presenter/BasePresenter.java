@@ -100,6 +100,12 @@ public abstract class BasePresenter<V extends BaseView> {
 
     public abstract void onCreate(Bundle params);
 
+    /**
+     * Activity进场动画结束
+     * 为了防止同时操作UI和动画而引起卡顿，可以在此回调中开始进行网络调用或操作UI
+     */
+    public abstract void onEnterAnimEnd();
+
     public void onResume() {
 
     }
@@ -111,5 +117,19 @@ public abstract class BasePresenter<V extends BaseView> {
     public void onDestroy() {
         disposeAll();
         mView = null;
+    }
+
+    /**
+     * 点击空页面
+     */
+    public void onClickEmptyView() {
+
+    }
+
+    /**
+     * 点击错误页面
+     */
+    public void onClickErrorView() {
+
     }
 }

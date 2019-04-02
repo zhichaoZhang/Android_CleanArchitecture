@@ -1,7 +1,7 @@
 package com.joye.cleanarchitecture.busi.welcome;
 
 import android.os.Bundle;
-import androidx.annotation.Nullable;
+import android.view.View;
 import android.widget.TextView;
 
 import com.joye.cleanarchitecture.R;
@@ -9,6 +9,8 @@ import com.joye.cleanarchitecture.R2;
 import com.joye.cleanarchitecture.app.core.mvp.view.BaseInjectActivity;
 import com.joye.cleanarchitecture.domain.utils.MyLog;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 
 /**
@@ -26,6 +28,11 @@ public class WelActivity extends BaseInjectActivity<WelPresenter> implements Wel
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wel);
+    }
+
+    @Override
+    protected void initView(Toolbar toolbar) {
+        toolbar.setVisibility(View.GONE);
     }
 
     @Override

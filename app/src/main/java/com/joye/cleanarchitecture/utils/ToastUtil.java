@@ -107,6 +107,9 @@ public class ToastUtil {
         try {
             Field tNField = toast.getClass().getDeclaredField("mTN");
             if (tNField == null) {
+                tNField = toast.getClass().getDeclaredField("TN");
+            }
+            if (tNField == null) {
                 return;
             }
             tNField.setAccessible(true);
@@ -158,6 +161,8 @@ public class ToastUtil {
                     if (handleShowMethod != null) {
                         try {
                             handleShowMethod.invoke(tnObject, token);
+                        } catch (IllegalStateException e) {
+                            e.printStackTrace();
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
                         } catch (InvocationTargetException e) {

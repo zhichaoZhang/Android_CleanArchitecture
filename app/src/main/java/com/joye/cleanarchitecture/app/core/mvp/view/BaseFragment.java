@@ -5,13 +5,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.joye.cleanarchitecture.app.core.dialog.BaseDialog;
 import com.joye.cleanarchitecture.app.core.mvp.presenter.BasePresenter;
@@ -19,6 +17,10 @@ import com.joye.cleanarchitecture.domain.utils.MyLog;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -66,11 +68,14 @@ public abstract class BaseFragment<P extends BasePresenter<?>> extends Fragment 
     public final void onActivityCreated(@Nullable Bundle savedInstanceState) {
         MyLog.d("---onActivityCreated---(%s)", CLASS_NAME);
         super.onActivityCreated(savedInstanceState);
-        initView(hostActivity.getSupportActionBar());
-        initPresenter();
+        initView(hostActivity.getToolBar());
         if (mPresenter != null) {
             mPresenter.onCreate(getArguments());
         }
+    }
+
+    protected Toolbar getToolbar() {
+        return hostActivity.getToolBar();
     }
 
     @Nullable
@@ -84,6 +89,50 @@ public abstract class BaseFragment<P extends BasePresenter<?>> extends Fragment 
     public final void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         MyLog.d("---onViewCreated---(%s)", CLASS_NAME);
         unbinder = ButterKnife.bind(this, view);
+    }
+
+    @Nullable
+    @Override
+    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+        MyLog.d("---onCreateAnimation---(%s)", CLASS_NAME);
+
+        if (nextAnim == 0) {
+            onAnimEnd(enter, null);
+            return super.onCreateAnimation(transit, enter, nextAnim);
+        }
+        Animation animation = AnimationUtils.loadAnimation(getActivity(), nextAnim);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                MyLog.d("---onAnimationStart---(%s)", CLASS_NAME);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                MyLog.d("---onAnimationEnd---(%s)", CLASS_NAME);
+                onAnimEnd(enter, animation);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+        return animation;
+    }
+
+    /**
+     * Fragment转场动画结束回调
+     * 如果Fragment没有设置转场动画，则直接回调此方法
+     *
+     * @param enter     是否是入场动画
+     * @param animation 动画实例
+     */
+    protected void onAnimEnd(boolean enter, @Nullable Animation animation) {
+        if (enter) {
+            if (mPresenter != null) {
+                mPresenter.onEnterAnimEnd();
+            }
+        }
     }
 
     @Override
@@ -117,12 +166,7 @@ public abstract class BaseFragment<P extends BasePresenter<?>> extends Fragment 
     /**
      * 初始化视图
      */
-    protected abstract void initView(ActionBar actionBar);
-
-    /**
-     * 初始化Presenter
-     */
-    protected abstract void initPresenter();
+    protected abstract void initView(Toolbar toolbar);
 
     @Override
     public void onDestroyView() {

@@ -41,6 +41,11 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         MyLog.d("user interactor is %s", mUserInteractor);
     }
 
+    @Override
+    public void onEnterAnimEnd() {
+
+    }
+
     /**
      * 登录操作
      *

@@ -35,6 +35,11 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
 
     }
 
+    @Override
+    public void onEnterAnimEnd() {
+
+    }
+
     /**
      * 退出登录操作
      */

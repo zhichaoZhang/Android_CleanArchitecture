@@ -27,6 +27,9 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
+
 /**
  * 登录页面
  */
@@ -41,6 +44,10 @@ public class LoginActivity2 extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+    }
+
+    @Override
+    protected void initView(Toolbar toolbar) {
         etAccount = findViewById(R.id.account);
         etPassword = findViewById(R.id.password);
         btnLogin = findViewById(R.id.btn_sign_in);

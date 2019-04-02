@@ -27,7 +27,7 @@ public class HomePresenter extends BasePresenter<MainView> {
     }
 
     @Override
-    public void onDestroy() {
+    public void onEnterAnimEnd() {
 
     }
 }

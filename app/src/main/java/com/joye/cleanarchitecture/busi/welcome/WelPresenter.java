@@ -57,8 +57,8 @@ public class WelPresenter extends BasePresenter<WelView> {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onEnterAnimEnd() {
+
     }
 
     /**

@@ -10,8 +10,9 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 
 import com.joye.cleanarchitecture.R;
+import com.joye.cleanarchitecture.app.core.mvp.view.BaseActivity;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends BaseActivity {
 
     public static Intent getCallingIntent(Context context) {
         return new Intent(context, RegisterActivity.class);
@@ -32,6 +33,11 @@ public class RegisterActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    @Override
+    protected void initView(Toolbar toolbar) {
+
     }
 
 }

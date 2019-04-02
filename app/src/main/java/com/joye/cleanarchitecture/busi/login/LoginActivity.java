@@ -14,6 +14,7 @@ import com.joye.cleanarchitecture.widget.BaseEditText;
 
 import java.util.Set;
 
+import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnEditorAction;
@@ -38,6 +39,10 @@ public class LoginActivity extends BaseInjectActivity<LoginPresenter> implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+    }
+
+    @Override
+    protected void initView(Toolbar toolbar) {
         Intent intent = getIntent();
         Uri uri = intent.getData();
         if (uri != null) {

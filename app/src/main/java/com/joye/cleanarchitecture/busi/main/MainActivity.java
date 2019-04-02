@@ -3,8 +3,14 @@ package com.joye.cleanarchitecture.busi.main;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
+
 import android.view.KeyEvent;
 
 import com.joye.cleanarchitecture.R;
@@ -77,6 +83,7 @@ public class MainActivity extends BaseActivity {
                     navigationView.setSelectedItemId(R.id.navigation_notifications);
                     break;
             }
+            setPageTitle(position);
         }
 
         @Override
@@ -90,10 +97,10 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initView();
     }
 
-    private void initView() {
+    @Override
+    protected void initView(Toolbar toolbar) {
         navigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         List<BaseFragment> fragments = new ArrayList<>(3);
         fragments.add(HomeFragment.newInstance());
@@ -103,7 +110,36 @@ public class MainActivity extends BaseActivity {
         vpMain.setAdapter(vpAdapter);
         vpMain.addOnPageChangeListener(mOnPageChangeListener);
         vpMain.setOffscreenPageLimit(2);
+        vpMain.setCurrentItem(0);
+        setPageTitle(0);
     }
+
+    // 设置标题栏标题
+    private void setPageTitle(int currentItem) {
+        String pageTitle = null;
+        switch (currentItem) {
+            case 0:
+                pageTitle = getString(R.string.title_home);
+                break;
+            case 1:
+                pageTitle = getString(R.string.title_dashboard);
+                break;
+            case 2:
+                pageTitle = getString(R.string.title_notifications);
+                break;
+        }
+        getToolBar().setTitle(pageTitle);
+    }
+
+//    @Override
+//    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+//        super.onPostCreate(savedInstanceState);
+//    }
+//
+//    @Override
+//    protected void onTitleChanged(CharSequence title, int color) {
+//        //重写该方法，并空实现，防止由onPostCreate()回调方法调用该方法导致标题改变
+//    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

@@ -5,14 +5,20 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+
+import androidx.annotation.CallSuper;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.google.android.material.snackbar.Snackbar;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,6 +100,7 @@ public abstract class BaseActivity<B extends BasePresenter<?>> extends AppCompat
     @Inject
     protected B mPresenter;
 
+    @CallSuper
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +111,7 @@ public abstract class BaseActivity<B extends BasePresenter<?>> extends AppCompat
 
     private void initView() {
         toolbar = findViewById(R.id.app_bar);
+        toolbar.setLogo(null);
         flContent = findViewById(R.id.fl_content);
         clEmpty = findViewById(R.id.cl_empty);
         clError = findViewById(R.id.cl_error);
@@ -113,6 +121,11 @@ public abstract class BaseActivity<B extends BasePresenter<?>> extends AppCompat
         ivError = findViewById(R.id.iv_error);
 
         setSupportActionBar(toolbar);
+    }
+
+
+    public Toolbar getToolBar() {
+        return toolbar;
     }
 
     /*代理setContentView方法，试子类布局添加指定容器中*/
@@ -139,11 +152,34 @@ public abstract class BaseActivity<B extends BasePresenter<?>> extends AppCompat
             flContent.addView(view, params);
         }
         unbinder = ButterKnife.bind(this, view);
+    }
+    /*代理setContentView方法，使子类布局添加指定容器中*/
+
+    /**
+     * 供子类实现的初始化UI的回调
+     *
+     * @param toolbar 标题栏
+     */
+    protected abstract void initView(Toolbar toolbar);
+
+    @Override
+    public void onEnterAnimationComplete() {
+        super.onEnterAnimationComplete();
+        MyLog.d("---onEnterAnimationComplete()---(%s)", CLASS_NAME);
+        if (mPresenter != null) {
+            mPresenter.onEnterAnimEnd();
+        }
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        MyLog.d("---onPostCreate()---(%s)", CLASS_NAME);
+        initView(toolbar);
         if (mPresenter != null) {
             mPresenter.onCreate(getIntent().getExtras());
         }
     }
-    /*代理setContentView方法，使子类布局添加指定容器中*/
 
     @Override
     protected void onStart() {
@@ -185,11 +221,11 @@ public abstract class BaseActivity<B extends BasePresenter<?>> extends AppCompat
     protected void onDestroy() {
         super.onDestroy();
         MyLog.d("---onDestroy()---(%s)", CLASS_NAME);
-        if (unbinder != null) {
-            unbinder.unbind();
-        }
         if (mPresenter != null) {
             mPresenter.onDestroy();
+        }
+        if (unbinder != null) {
+            unbinder.unbind();
         }
     }
 
@@ -281,6 +317,13 @@ public abstract class BaseActivity<B extends BasePresenter<?>> extends AppCompat
         if (ivEmpty != null) {
             ivEmpty.setImageResource(emptyImageRes);
         }
+        if (emptyViewVisible) {
+            clEmpty.setOnClickListener(view -> {
+                if(mPresenter != null) {
+                    mPresenter.onClickEmptyView();
+                }
+            });
+        }
     }
 
     @Override
@@ -290,7 +333,7 @@ public abstract class BaseActivity<B extends BasePresenter<?>> extends AppCompat
 
     @Override
     public void setErrorViewVisible(boolean errorViewVisible, String errorTip) {
-        setEmptyViewVisible(errorViewVisible, errorTip, R.drawable.img_empty);
+        setErrorViewVisible(errorViewVisible, errorTip, R.drawable.img_empty);
     }
 
     @Override
@@ -303,6 +346,13 @@ public abstract class BaseActivity<B extends BasePresenter<?>> extends AppCompat
         }
         if (ivError != null) {
             ivError.setImageResource(errorImageRes);
+        }
+        if(errorViewVisible) {
+            clError.setOnClickListener(view -> {
+                if(mPresenter != null) {
+                    mPresenter.onClickErrorView();
+                }
+            });
         }
     }
 

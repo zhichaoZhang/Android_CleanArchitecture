@@ -27,7 +27,7 @@ public class NotificationPresenter extends BasePresenter<MainView> {
     }
 
     @Override
-    public void onDestroy() {
+    public void onEnterAnimEnd() {
 
     }
 }
