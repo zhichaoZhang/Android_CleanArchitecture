@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import com.joye.cleanarchitecture.R;
 import com.joye.cleanarchitecture.R2;
-import com.joye.cleanarchitecture.app.core.mvp.view.BaseInjectFragment;
+import com.joye.cleanarchitecture.app.core.mvp.view.BaseFragment;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -21,7 +21,7 @@ import butterknife.OnClick;
  * Created by joye on 2018/8/21.
  */
 
-public class DashboardFragment extends BaseInjectFragment<DashboardPresenter> implements DashboardView{
+public class DashboardFragment extends BaseFragment<DashboardPresenter> implements DashboardView{
 
     @BindView(R2.id.btn_logout)
     Button btnLogout;

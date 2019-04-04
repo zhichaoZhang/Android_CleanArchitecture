@@ -5,20 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-
-import androidx.annotation.CallSuper;
-import androidx.annotation.DrawableRes;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.joye.cleanarchitecture.R;
 import com.joye.cleanarchitecture.app.core.dialog.BaseDialog;
 import com.joye.cleanarchitecture.app.core.dialog.LoadingDialog;
@@ -38,6 +25,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.annotation.CallSuper;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -51,7 +45,7 @@ import butterknife.Unbinder;
  * Created by joye on 2017/12/13.
  */
 
-public abstract class BaseActivity<B extends BasePresenter<?>> extends AppCompatActivity implements BaseView {
+public abstract class BaseActivity<B extends BasePresenter<?>> extends BaseInjectActivity implements BaseView {
     private final String CLASS_NAME = getClass().getSimpleName();
 
     /**

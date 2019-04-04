@@ -3,16 +3,9 @@ package com.joye.cleanarchitecture.busi.main;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.ViewPager;
-
 import android.view.KeyEvent;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.joye.cleanarchitecture.R;
 import com.joye.cleanarchitecture.R2;
 import com.joye.cleanarchitecture.adapter.FragmentAdapter;
@@ -22,6 +15,8 @@ import com.joye.cleanarchitecture.app.core.mvp.view.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
 public class MainActivity extends BaseActivity {
@@ -100,6 +95,11 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected boolean isInjectActivity() {
+        return false;
+    }
+
+    @Override
     protected void initView(Toolbar toolbar) {
         navigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         List<BaseFragment> fragments = new ArrayList<>(3);
@@ -130,16 +130,6 @@ public class MainActivity extends BaseActivity {
         }
         getToolBar().setTitle(pageTitle);
     }
-
-//    @Override
-//    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-//        super.onPostCreate(savedInstanceState);
-//    }
-//
-//    @Override
-//    protected void onTitleChanged(CharSequence title, int color) {
-//        //重写该方法，并空实现，防止由onPostCreate()回调方法调用该方法导致标题改变
-//    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

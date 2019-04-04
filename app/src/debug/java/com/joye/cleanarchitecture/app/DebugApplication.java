@@ -25,7 +25,7 @@ public class DebugApplication extends BaseApplication {
         LeakCanary.install(this);
 
         /*
-          设置网路库调试模式
+          设置网络库调试模式
           打开调试模式可以在网页(chrome://inspect)中查看：
           1、网络请求信息
           2、数据库信息

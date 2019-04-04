@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.joye.cleanarchitecture.R;
 import com.joye.cleanarchitecture.R2;
+import com.joye.cleanarchitecture.app.core.mvp.view.BaseActivity;
 import com.joye.cleanarchitecture.app.core.mvp.view.BaseInjectActivity;
 import com.joye.cleanarchitecture.domain.utils.MyLog;
 
@@ -19,7 +20,7 @@ import butterknife.BindView;
  * Created by joye on 2018/8/22.
  */
 
-public class WelActivity extends BaseInjectActivity<WelPresenter> implements WelView {
+public class WelActivity extends BaseActivity<WelPresenter> implements WelView {
 
     @BindView(R2.id.tv_countdown)
     TextView tvCountdown;

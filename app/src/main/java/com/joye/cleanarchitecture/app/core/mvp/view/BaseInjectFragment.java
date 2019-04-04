@@ -2,8 +2,7 @@ package com.joye.cleanarchitecture.app.core.mvp.view;
 
 import android.content.Context;
 
-import com.joye.cleanarchitecture.app.core.mvp.presenter.BasePresenter;
-
+import androidx.fragment.app.Fragment;
 import dagger.android.support.AndroidSupportInjection;
 
 /**
@@ -12,10 +11,10 @@ import dagger.android.support.AndroidSupportInjection;
  * Created by joye on 2018/8/21.
  */
 
-public abstract class BaseInjectFragment<P extends BasePresenter<?>> extends BaseFragment<P> {
+public abstract class BaseInjectFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
-        super.onAttach(context);
         AndroidSupportInjection.inject(this);
+        super.onAttach(context);
     }
 }

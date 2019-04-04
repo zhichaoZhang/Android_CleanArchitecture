@@ -3,6 +3,7 @@ package com.joye.cleanarchitecture.busi.main;
 import android.content.Context;
 import android.os.Bundle;
 
+import com.joye.cleanarchitecture.R;
 import com.joye.cleanarchitecture.app.UIObserver;
 import com.joye.cleanarchitecture.app.core.mvp.presenter.BasePresenter;
 import com.joye.cleanarchitecture.busi.login.LoginActivity;
@@ -44,9 +45,9 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
      * 退出登录操作
      */
     public void logout() {
-        mView.showLoading("正在退出...");
+        mView.showLoading(mCtx.getString(R.string.logging_out));
         Observable<RxOptional<Void>> logoutObservable = userInteractor.logout();
-        execute(logoutObservable, new UIObserver<RxOptional<Void>>(mView) {
+        execute(logoutObservable, new UIObserver<RxOptional<Void>>(mCtx, mView) {
             @Override
             public void onComplete() {
                 super.onComplete();

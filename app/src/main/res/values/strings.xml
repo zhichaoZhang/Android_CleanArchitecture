@@ -22,4 +22,8 @@
     <string name="password_must_not_be_empty">密码不能为空</string>
     <string name="login_success">登录成功</string>
     <string name="title_activity_resister">ResisterActivity</string>
+    <string name="server_error">服务器异常，请稍后重试</string>
+    <string name="network_error">网络连接异常，请检查网络后重试</string>
+    <string name="unknown_network_error">未知网络错误</string>
+    <string name="logging_out">正在退出...</string>
 </resources>

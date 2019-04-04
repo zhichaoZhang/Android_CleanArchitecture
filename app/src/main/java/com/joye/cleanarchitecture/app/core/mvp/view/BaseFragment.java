@@ -20,7 +20,6 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -30,7 +29,7 @@ import butterknife.Unbinder;
  * Created by joye on 2017/12/13.
  */
 
-public abstract class BaseFragment<P extends BasePresenter<?>> extends Fragment implements BaseView {
+public abstract class BaseFragment<P extends BasePresenter<?>> extends BaseInjectFragment implements BaseView {
     private final String CLASS_NAME = getClass().getSimpleName();
 
     /**

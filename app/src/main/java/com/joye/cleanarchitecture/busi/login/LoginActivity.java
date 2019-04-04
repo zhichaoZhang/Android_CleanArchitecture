@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.joye.cleanarchitecture.R;
 import com.joye.cleanarchitecture.R2;
+import com.joye.cleanarchitecture.app.core.mvp.view.BaseActivity;
 import com.joye.cleanarchitecture.app.core.mvp.view.BaseInjectActivity;
 import com.joye.cleanarchitecture.widget.BaseEditText;
 
@@ -22,7 +23,7 @@ import butterknife.OnEditorAction;
 /**
  * 登录页面
  */
-public class LoginActivity extends BaseInjectActivity<LoginPresenter> implements LoginView {
+public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginView {
 
     @BindView(R2.id.account)
     AutoCompleteTextView etAccount;

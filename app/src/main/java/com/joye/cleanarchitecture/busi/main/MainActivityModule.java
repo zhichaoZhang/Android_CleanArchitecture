@@ -13,18 +13,17 @@ import dagger.Provides;
 public class MainActivityModule {
 
     @Provides
-    HomeView provideHomeView(HomeFragment homeFragment) {
+    static HomeView provideHomeView(HomeFragment homeFragment) {
         return homeFragment;
     }
 
     @Provides
-    DashboardView provideDashboardView(DashboardFragment dashboardFragment) {
+    static DashboardView provideDashboardView(DashboardFragment dashboardFragment) {
         return dashboardFragment;
     }
 
     @Provides
-    NotificationView provideNotificationView(NotificationFragment notificationFragment) {
+    static NotificationView provideNotificationView(NotificationFragment notificationFragment) {
         return notificationFragment;
     }
-
 }

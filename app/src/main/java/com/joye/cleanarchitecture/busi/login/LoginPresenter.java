@@ -64,7 +64,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         mView.setLoginBtnEnable(false);
         mView.showLoading(mCtx.getString(R.string.logging_in));
         Observable<User> userObservable = mUserInteractor.login(account, passwd);
-        execute(userObservable, new UIObserver<User>(mView) {
+        execute(userObservable, new UIObserver<User>(mCtx, mView) {
             @Override
             public void onNext(User value) {
                 super.onNext(value);
@@ -77,16 +77,16 @@ public class LoginPresenter extends BasePresenter<LoginView> {
             public void onFinally() {
                 super.onFinally();
                 mView.hideLoading();
+                //登录失败
+                mView.setLoginBtnEnable(true);
             }
 
             @Override
-            public void onError(Throwable e) {
-                super.onError(e);
-                //登录失败
-                mView.setLoginBtnEnable(true);
-
+            protected void onOtherError(Throwable e) {
+                super.onOtherError(e);
                 if (e instanceof UnregisterException) {
                     mView.startActivity(RegisterActivity.getCallingIntent(mCtx));
+                    return;
                 }
 
                 if (e instanceof UserInfoIncompleteException) {

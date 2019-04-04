@@ -12,11 +12,6 @@ import dagger.Provides;
 @Module
 public class LoginActivityModule {
 
-//    @Provides
-//    String provideTestStr() {
-//        return "inject test string";
-//    }
-//
     @Provides
     LoginView provideLoginView(LoginActivity loginActivity) {
         return loginActivity;

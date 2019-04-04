@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.joye.cleanarchitecture.R;
-import com.joye.cleanarchitecture.app.core.mvp.view.BaseInjectFragment;
+import com.joye.cleanarchitecture.app.core.mvp.view.BaseFragment;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -17,7 +17,7 @@ import androidx.appcompat.widget.Toolbar;
  * Created by joye on 2018/8/21.
  */
 
-public class NotificationFragment extends BaseInjectFragment<NotificationPresenter> implements NotificationView{
+public class NotificationFragment extends BaseFragment<NotificationPresenter> implements NotificationView{
 
     public static NotificationFragment newInstance() {
         return new NotificationFragment();

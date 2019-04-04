@@ -24,7 +24,7 @@ import javax.inject.Inject;
  */
 
 public class WelPresenter extends BasePresenter<WelView> {
-    private Context context;
+    private Context mCtx;
     //倒计时
     private CountDownTimer countDownTimer;
     private UserInteractor userInteractor;
@@ -33,7 +33,7 @@ public class WelPresenter extends BasePresenter<WelView> {
     @Inject
     public WelPresenter(Context context, WelView welView, UserInteractor userInteractor,
                         UserCache userCache) {
-        this.context = context;
+        this.mCtx = context;
         this.userInteractor = userInteractor;
         this.userCache = userCache;
         this.mView = welView;
@@ -41,7 +41,7 @@ public class WelPresenter extends BasePresenter<WelView> {
 
     @Override
     public void onCreate(Bundle params) {
-        execute(userInteractor.loadUserConfigInfo(), new UIObserver<UserConfig>(mView) {
+        execute(userInteractor.loadUserConfigInfo(), new UIObserver<UserConfig>(mCtx, mView) {
             @Override
             public void onNext(UserConfig value) {
                 super.onNext(value);
@@ -69,21 +69,21 @@ public class WelPresenter extends BasePresenter<WelView> {
         cancelCountDown();
 
         //获取用户信息缓存，根据缓存是否存在判断跳转到登录页或主页
-        execute(userCache.get(), new UIObserver<User>(mView) {
+        execute(userCache.get(), new UIObserver<User>(mCtx, mView) {
             @Override
             public void onNext(User value) {
                 super.onNext(value);
                 if (value.isLogged()) {
-                    mView.startActivity(MainActivity.getCallingIntent(context));
+                    mView.startActivity(MainActivity.getCallingIntent(mCtx));
                 } else {
-                    mView.startActivity(LoginActivity.getCallingIntent(context));
+                    mView.startActivity(LoginActivity.getCallingIntent(mCtx));
                 }
             }
 
             @Override
-            public void onError(Throwable e) {
-                super.onError(e);
-                mView.startActivity(LoginActivity.getCallingIntent(context));
+            public void onOtherError(Throwable e) {
+                super.onOtherError(e);
+                mView.startActivity(LoginActivity.getCallingIntent(mCtx));
             }
 
             @Override
