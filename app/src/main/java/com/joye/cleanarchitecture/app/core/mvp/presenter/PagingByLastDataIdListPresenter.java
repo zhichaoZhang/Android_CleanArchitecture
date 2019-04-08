@@ -23,14 +23,14 @@ public abstract class PagingByLastDataIdListPresenter<V extends BaseListView, M>
 
     @CallSuper
     @Override
-    protected void refresh() {
+    public void refresh() {
         mLastDataId = null;
         super.refresh();
     }
 
     @CallSuper
     @Override
-    protected void loadMore() {
+    public void loadMore() {
         mLastDataId = getLastDataId();
         super.loadMore();
     }

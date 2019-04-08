@@ -40,11 +40,12 @@ public class HomePresenter extends PagingByLastDataIdListPresenter<HomeView, Lis
 
     @Override
     public void onCreate(Bundle params) {
-
+//        refresh();
     }
 
     @Override
     public void onEnterAnimEnd() {
+        mView.showRefresh();
         refresh();
     }
 

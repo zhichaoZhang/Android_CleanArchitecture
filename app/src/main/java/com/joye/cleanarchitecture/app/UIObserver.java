@@ -33,7 +33,6 @@ public class UIObserver<T> extends DefaultObserver<T> {
 
     @Override
     public final void onError(Throwable e) {
-        super.onError(e);
         if (e instanceof NetErrorException) {
             onNetError(e);
         } else if (e instanceof CommonDomainException) {
@@ -41,6 +40,8 @@ public class UIObserver<T> extends DefaultObserver<T> {
         } else {
             onOtherError(e);
         }
+        //先处理错误，后执行Finally
+        super.onError(e);
     }
 
     /**

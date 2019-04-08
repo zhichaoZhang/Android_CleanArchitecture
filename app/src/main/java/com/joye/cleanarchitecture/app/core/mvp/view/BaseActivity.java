@@ -297,7 +297,7 @@ public abstract class BaseActivity<B extends BasePresenter<?>> extends BaseInjec
 
     @Override
     public void setEmptyViewVisible(boolean emptyViewVisible, String emptyTip) {
-        setEmptyViewVisible(emptyViewVisible, emptyTip, R.drawable.img_empty);
+        setEmptyViewVisible(emptyViewVisible, emptyTip, R.drawable.ic_empty);
     }
 
     @Override
@@ -327,7 +327,7 @@ public abstract class BaseActivity<B extends BasePresenter<?>> extends BaseInjec
 
     @Override
     public void setErrorViewVisible(boolean errorViewVisible, String errorTip) {
-        setErrorViewVisible(errorViewVisible, errorTip, R.drawable.img_empty);
+        setErrorViewVisible(errorViewVisible, errorTip, R.drawable.ic_error);
     }
 
     @Override

@@ -66,7 +66,6 @@ public abstract class BaseListPresenter<V extends BaseListView, M> extends BaseP
             return;
         }
         mCurLoadType = LoadType.LOAD_TYPE_REFRESH;
-        mView.showRefresh();
         executeRequest();
     }
 
@@ -79,7 +78,6 @@ public abstract class BaseListPresenter<V extends BaseListView, M> extends BaseP
             return;
         }
         mCurLoadType = LoadType.LOAD_TYPE_LOAD_MORE;
-        mView.showLoadMore();
         executeRequest();
     }
 
@@ -98,6 +96,13 @@ public abstract class BaseListPresenter<V extends BaseListView, M> extends BaseP
             public void onNext(M value) {
                 super.onNext(value);
                 dealLoadSuccess(value);
+            }
+
+            @Override
+            public void onFinally() {
+                super.onFinally();
+                //恢复初始加载状态
+                mCurLoadType = LoadType.LOAD_TYPE_IDLE;
             }
 
             @Override
@@ -150,7 +155,6 @@ public abstract class BaseListPresenter<V extends BaseListView, M> extends BaseP
                 mView.setErrorViewVisible(false);
                 mView.setEmptyViewVisible(false);
             }
-            return;
         }
 
         if (isLoadingMore()) {
@@ -162,12 +166,9 @@ public abstract class BaseListPresenter<V extends BaseListView, M> extends BaseP
             } else {
                 //否则仍可以继续加载
                 mView.hideLoadMore();
-                mLastListSize = lastListSize;
+                mLastListSize = curListSize;
             }
         }
-
-        //恢复初始加载状态
-        mCurLoadType = LoadType.LOAD_TYPE_IDLE;
     }
 
     /**

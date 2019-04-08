@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:gravity="center"
+    android:padding="10dp"
+    android:layout_height="wrap_content">
+
+    <ProgressBar
+        android:id="@+id/pb_refreshing"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+
+    <com.joye.cleanarchitecture.widget.BaseTextView
+        android:id="@+id/btv_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pull_down_to_refresh"
+        android:layout_marginLeft="10dp"
+        />
+</LinearLayout>

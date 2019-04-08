@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import com.joye.cleanarchitecture.R;
 import com.joye.cleanarchitecture.app.core.dialog.BaseDialog;
 import com.joye.cleanarchitecture.app.core.mvp.presenter.BasePresenter;
 import com.joye.cleanarchitecture.domain.utils.MyLog;
@@ -222,16 +223,12 @@ public abstract class BaseFragment<P extends BasePresenter<?>> extends BaseInjec
 
     @Override
     public void setEmptyViewVisible(boolean emptyViewVisible) {
-        if (hostActivity != null) {
-            hostActivity.setEmptyViewVisible(emptyViewVisible);
-        }
+        setEmptyViewVisible(emptyViewVisible, getString(R.string.empty_tip_placeholder));
     }
 
     @Override
     public void setEmptyViewVisible(boolean emptyViewVisible, String emptyTip) {
-        if (hostActivity != null) {
-            hostActivity.setEmptyViewVisible(emptyViewVisible, emptyTip);
-        }
+        setEmptyViewVisible(emptyViewVisible, emptyTip, R.drawable.ic_empty);
     }
 
     @Override
@@ -243,16 +240,12 @@ public abstract class BaseFragment<P extends BasePresenter<?>> extends BaseInjec
 
     @Override
     public void setErrorViewVisible(boolean errorViewVisible) {
-        if (hostActivity != null) {
-            hostActivity.setErrorViewVisible(errorViewVisible);
-        }
+        setErrorViewVisible(errorViewVisible, getString(R.string.error_tip_placeholder));
     }
 
     @Override
     public void setErrorViewVisible(boolean errorViewVisible, String errorTip) {
-        if (hostActivity != null) {
-            hostActivity.setErrorViewVisible(errorViewVisible, errorTip);
-        }
+        setErrorViewVisible(errorViewVisible, errorTip, R.drawable.ic_error);
     }
 
     @Override
