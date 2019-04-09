@@ -96,6 +96,7 @@ public abstract class BaseFragment<P extends BasePresenter<?>> extends BaseInjec
     public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
         MyLog.d("---onCreateAnimation---(%s)", CLASS_NAME);
 
+        //如果没有设置转场动画，则直接调用onAnimEnd，通知子类页面进入完成
         if (nextAnim == 0) {
             onAnimEnd(enter, null);
             return super.onCreateAnimation(transit, enter, nextAnim);

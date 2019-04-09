@@ -17,6 +17,13 @@ public interface IRefreshView {
     void stopLoadMore();
 
     /**
+     * 加载更多出错
+     *
+     * @param throwable 异常信息
+     */
+    void loadMoreError(Throwable throwable);
+
+    /**
      * 没有更多数据了
      */
     void noMore();

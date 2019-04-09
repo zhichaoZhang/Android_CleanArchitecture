@@ -11,6 +11,7 @@ import com.joye.cleanarchitecture.domain.model.transaction.Transaction;
 import com.joye.cleanarchitecture.widget.BaseRecyclerView;
 import com.joye.cleanarchitecture.widget.refreshview.DefaultLoadMoreFooter;
 import com.joye.cleanarchitecture.widget.refreshview.DefaultRefreshHeader;
+import com.joye.cleanarchitecture.widget.refreshview.OnLoadListener;
 import com.joye.cleanarchitecture.widget.refreshview.SuperRefreshView;
 
 import java.util.List;
@@ -49,7 +50,7 @@ public class HomeFragment extends BaseListFragment<HomePresenter, List<Transacti
     protected void initView(Toolbar toolbar) {
         srvHome.setRefreshHeader(new DefaultRefreshHeader(getContext()));
         srvHome.setLoadMoreFooter(new DefaultLoadMoreFooter(getContext()));
-        srvHome.setOnLoadListener(new SuperRefreshView.OnLoadListener() {
+        srvHome.setOnLoadListener(new OnLoadListener() {
             @Override
             public void onRefresh() {
                 mPresenter.refresh();

@@ -19,14 +19,14 @@ public interface BaseListView<M> extends BaseView {
     void stopRefresh();
 
     /**
-     * 显示加载更多视图
-     */
-    void showLoadMore();
-
-    /**
-     * 隐藏加载更多视图
+     * 隐藏加载更多
      */
     void hideLoadMore();
+
+    /**
+     * 加载更多出错
+     */
+    void loadMoreError(Throwable throwable);
 
     /**
      * 显示没有更多视图

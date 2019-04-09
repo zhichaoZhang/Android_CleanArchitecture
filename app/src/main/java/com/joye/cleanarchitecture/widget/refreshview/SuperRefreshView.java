@@ -68,23 +68,6 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class SuperRefreshView extends LinearLayout implements IRefreshView {
 
-
-    /**
-     * 触发加载数据的监听
-     */
-    public interface OnLoadListener {
-
-        /**
-         * 下拉刷新回调
-         */
-        void onRefresh();
-
-        /**
-         * 加载更多回调
-         */
-        void onLoadMore();
-    }
-
     enum RefreshState {
         REFRESH_STATE_IDLE,
         REFRESH_STATE_PULLING_DOWN,
@@ -481,6 +464,13 @@ public class SuperRefreshView extends LinearLayout implements IRefreshView {
      */
     @Override
     public void stopLoadMore() {
+        mLoadMoreFooter.onLoadMoreCompleted();
+        smoothUpdateHeaderMargin(-mHeaderViewHeight, true);
+        mRefreshState = RefreshState.REFRESH_STATE_IDLE;
+    }
+
+    @Override
+    public void loadMoreError(Throwable throwable) {
         mLoadMoreFooter.onLoadMoreCompleted();
         smoothUpdateHeaderMargin(-mHeaderViewHeight, true);
         mRefreshState = RefreshState.REFRESH_STATE_IDLE;

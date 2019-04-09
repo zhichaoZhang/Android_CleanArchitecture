@@ -26,21 +26,20 @@ public abstract class PagingByPageNumListPresenter<V extends BaseListView, M> ex
      */
     private int mCurPageNum = INIT_PAGE_NUMBER;
 
-    PagingByPageNumListPresenter(Context context) {
+    protected PagingByPageNumListPresenter(Context context) {
         super(context);
     }
 
     @CallSuper
     @Override
-    protected void refresh() {
+    public void refresh() {
         resetPageNumber();
         super.refresh();
     }
 
     @CallSuper
     @Override
-    protected void loadMore() {
-        addPageNumber();
+    public void loadMore() {
         super.loadMore();
     }
 
@@ -49,11 +48,18 @@ public abstract class PagingByPageNumListPresenter<V extends BaseListView, M> ex
         return createRequest(mCurPageNum, PAGE_SIZE);
     }
 
-    abstract Observable<M> createRequest(int pageNum, int pageSize);
+    protected abstract Observable<M> createRequest(int pageNum, int pageSize);
 
     //重置页号
     private void resetPageNumber() {
         mCurPageNum = INIT_PAGE_NUMBER;
+    }
+
+    @Override
+    protected void dealLoadSuccess(M value, LoadType loadType) {
+        super.dealLoadSuccess(value, loadType);
+        //在加载更多请求成功后，页号才加1
+        addPageNumber();
     }
 
     //页号加1

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+import butterknife.ButterKnife;
 
 /**
  * 列表控件基类
@@ -34,6 +35,7 @@ public class BaseRecyclerView extends RecyclerView {
 
         public BaseViewHolder(@NonNull View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 
@@ -44,7 +46,7 @@ public class BaseRecyclerView extends RecyclerView {
      */
     public static abstract class BaseAdapter<VH extends BaseViewHolder, M> extends RecyclerView.Adapter<VH> {
         private LayoutInflater mLayoutInflater;
-        private Context mCxt;
+        protected Context mCxt;
 
         public BaseAdapter(Context context) {
             this.mCxt = context;
@@ -53,7 +55,7 @@ public class BaseRecyclerView extends RecyclerView {
 
         @NonNull
         @Override
-        public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public final VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             return onCreateViewHolder(mLayoutInflater, parent, viewType);
         }
 

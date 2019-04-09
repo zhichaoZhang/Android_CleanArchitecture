@@ -6,11 +6,16 @@ import com.joye.cleanarchitecture.app.UIObserver;
 import com.joye.cleanarchitecture.app.core.mvp.view.BaseListView;
 import com.joye.cleanarchitecture.domain.utils.MyLog;
 
+import androidx.annotation.CallSuper;
 import io.reactivex.Observable;
 
 /**
  * 列表控制器基类
- * 控制下拉刷新和分页加载的逻辑控制。
+ * 实现了下拉刷新和分页加载的逻辑基础控制
+ * <p>
+ * 若发生"下拉刷新"和"加载更多"同时展示的情况，则只响应最近一次刷新动作。
+ * 例如：先下拉刷新，然后滑动到列表底部触发的加载更多，那么下拉刷新的返回结果将被忽略，反之亦然。
+ * <p>
  * 支持两种分页方式：
  * 1、按页号分页 {@link PagingByPageNumListPresenter}
  * 2、按最后一条数据标识分页 {@link PagingByLastDataIdListPresenter}
@@ -20,9 +25,9 @@ import io.reactivex.Observable;
 
 public abstract class BaseListPresenter<V extends BaseListView, M> extends BasePresenter<V> {
     /**
-     * 当前正在执行的数据加载类型，用来解决同时出现'下拉刷新'和'加载更多'的冲突
+     * 最近一次加载类型
      */
-    private LoadType mCurLoadType = LoadType.LOAD_TYPE_IDLE;
+    private LoadType mLatestLoadType = LoadType.LOAD_TYPE_IDLE;
 
     /**
      * 上下文
@@ -33,6 +38,21 @@ public abstract class BaseListPresenter<V extends BaseListView, M> extends BaseP
      * 记录上次请求过后的列表长度
      */
     private int mLastListSize;
+
+    /**
+     * 下拉刷新标识
+     */
+    private boolean isRefreshing = false;
+
+    /**
+     * 加载更多标识
+     */
+    private boolean isLoadingMore = false;
+
+    /**
+     * 是否还可以加载更多标识
+     */
+    private boolean isNoMore = false;
 
     BaseListPresenter(Context context) {
         this.mCxt = context;
@@ -61,24 +81,30 @@ public abstract class BaseListPresenter<V extends BaseListView, M> extends BaseP
      * 下拉刷新
      */
     protected void refresh() {
-        if (isRefreshing() || isLoadingMore()) {
-            MyLog.w("The list page is refreshing or loading more, just return.");
+        if (isRefreshing()) {
+            MyLog.w("The list page is refreshing, just return.");
             return;
         }
-        mCurLoadType = LoadType.LOAD_TYPE_REFRESH;
-        executeRequest();
+        setRefreshing(true);
+        mLatestLoadType = LoadType.LOAD_TYPE_REFRESH;
+        executeRequest(LoadType.LOAD_TYPE_REFRESH);
     }
 
     /**
      * 加载更多
      */
     protected void loadMore() {
-        if (isLoadingMore() || isRefreshing()) {
-            MyLog.w("The list page is loading more or refreshing, just return.");
+        if (isLoadingMore()) {
+            MyLog.w("The list page is loading more, just return.");
             return;
         }
-        mCurLoadType = LoadType.LOAD_TYPE_LOAD_MORE;
-        executeRequest();
+        if (isNoMore()) {
+            MyLog.w("The list could not query more data, because has no more.");
+            return;
+        }
+        setLoadingMore(true);
+        mLatestLoadType = LoadType.LOAD_TYPE_LOAD_MORE;
+        executeRequest(LoadType.LOAD_TYPE_LOAD_MORE);
     }
 
     /**
@@ -89,20 +115,13 @@ public abstract class BaseListPresenter<V extends BaseListView, M> extends BaseP
     abstract Observable<M> createRequest();
 
     //执行网络请求
-    private void executeRequest() {
+    private void executeRequest(LoadType loadType) {
         execute(createRequest(), new UIObserver<M>(mCxt, mView) {
 
             @Override
             public void onNext(M value) {
                 super.onNext(value);
-                dealLoadSuccess(value);
-            }
-
-            @Override
-            public void onFinally() {
-                super.onFinally();
-                //恢复初始加载状态
-                mCurLoadType = LoadType.LOAD_TYPE_IDLE;
+                dealLoadSuccess(value, loadType);
             }
 
             @Override
@@ -126,12 +145,16 @@ public abstract class BaseListPresenter<V extends BaseListView, M> extends BaseP
     private void dealLoadError(Throwable t) {
         if (isRefreshing()) {
             mView.stopRefresh();
+            setRefreshing(false);
         }
 
         if (isLoadingMore()) {
+            mView.loadMoreError(t);
             mView.hideLoadMore();
+            setLoadingMore(false);
         }
 
+        mLastListSize = getDataListSize();
         if (mLastListSize == 0) {
             //如果列表为空，则显示错误页面
             mView.setErrorViewVisible(true, t.getMessage());
@@ -142,31 +165,42 @@ public abstract class BaseListPresenter<V extends BaseListView, M> extends BaseP
     }
 
     //处理请求成功的返回结果
-    private void dealLoadSuccess(M value) {
-        loadFinish(value, mCurLoadType);
-
+    @CallSuper
+    protected void dealLoadSuccess(M value, LoadType loadType) {
         if (isRefreshing()) {
+            setRefreshing(false);
             mView.stopRefresh();
-            if (getDataListSize() == 0) {
-                //如果下拉刷新完成列表数据仍是0，则显示空页面
-                mView.setEmptyViewVisible(true);
-            } else {
-                //否则隐藏错误页面和空页面
-                mView.setErrorViewVisible(false);
-                mView.setEmptyViewVisible(false);
-            }
-        }
 
-        if (isLoadingMore()) {
-            int curListSize = getDataListSize();
-            int lastListSize = mLastListSize;
-            if (curListSize == lastListSize) {
-                //如果两次请求得到的数据列表长度一致，则代表没有更多数据了
-                mView.showNoMore();
-            } else {
-                //否则仍可以继续加载
-                mView.hideLoadMore();
-                mLastListSize = curListSize;
+            if (mLatestLoadType == LoadType.LOAD_TYPE_REFRESH && mLatestLoadType == loadType) {
+                loadFinish(value, mLatestLoadType);
+                //当下拉刷新成功后，则可以继续加载更多
+                noMore(false);
+
+                if (getDataListSize() == 0) {
+                    //如果下拉刷新完成列表数据仍是0，则显示空页面
+                    mView.setEmptyViewVisible(true);
+                } else {
+                    //否则隐藏错误页面和空页面
+                    mView.setErrorViewVisible(false);
+                    mView.setEmptyViewVisible(false);
+                }
+            }
+        } else if (isLoadingMore()) {
+            setLoadingMore(false);
+            mView.hideLoadMore();
+
+            if (mLatestLoadType == LoadType.LOAD_TYPE_LOAD_MORE && mLatestLoadType == loadType) {
+                loadFinish(value, mLatestLoadType);
+                int curListSize = getDataListSize();
+                int lastListSize = mLastListSize;
+                if (curListSize == lastListSize) {
+                    //如果两次请求得到的数据列表长度一致，则代表没有更多数据了
+                    mView.showNoMore();
+                    noMore(true);
+                } else {
+                    //否则仍可以继续加载
+                    mLastListSize = curListSize;
+                }
             }
         }
     }
@@ -187,11 +221,33 @@ public abstract class BaseListPresenter<V extends BaseListView, M> extends BaseP
 
     //是否正在下拉刷新
     private boolean isRefreshing() {
-        return LoadType.LOAD_TYPE_REFRESH == mCurLoadType;
+        return isRefreshing;
     }
 
     //是否正在加载更多
     private boolean isLoadingMore() {
-        return LoadType.LOAD_TYPE_LOAD_MORE == mCurLoadType;
+        return isLoadingMore;
     }
+
+    /**
+     * 是否没有更多数据了
+     *
+     * @return true 代表没有更多了，false代表还可以加载更多
+     */
+    private boolean isNoMore() {
+        return isNoMore;
+    }
+
+    private void setRefreshing(boolean refreshing) {
+        this.isRefreshing = refreshing;
+    }
+
+    private void setLoadingMore(boolean loadingMore) {
+        this.isLoadingMore = loadingMore;
+    }
+
+    private void noMore(boolean noMore) {
+        this.isNoMore = noMore;
+    }
+
 }

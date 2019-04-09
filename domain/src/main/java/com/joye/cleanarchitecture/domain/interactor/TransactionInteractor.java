@@ -35,25 +35,25 @@ public class TransactionInteractor extends BaseInteractor {
     private int curCount = 0;
 
     public Observable<List<Transaction>> queryTransactionRecords(String transChannel, String month, String lastTransId) {
-        return Observable.just(new ArrayList<>());
-//        if (lastTransId == null) {
-//            curCount = 0;
-//        }
-//        if (curCount >= maxItemCount) {
-//            return Observable.just(new ArrayList<>());
-//        }
-//        return Observable.just(20)
-//                .delay(3, TimeUnit.SECONDS)
-//                .map(new Function<Integer, List<Transaction>>() {
-//                    @Override
-//                    public List<Transaction> apply(Integer count) throws Exception {
-//                        List<Transaction> transactions = new ArrayList<>(count);
-//                        for (int i = 0; i < count; i++) {
-//                            Transaction transaction = new Transaction(String.valueOf(++curCount), new Money(10, 100, "¥"), new Date());
-//                            transactions.add(transaction);
-//                        }
-//                        return transactions;
-//                    }
-//                });
+//        return Observable.just(new ArrayList<>());
+        if (lastTransId == null) {
+            curCount = 0;
+        }
+        if (curCount >= maxItemCount) {
+            return Observable.just(new ArrayList<>());
+        }
+        return Observable.just(20)
+                .delay(3, TimeUnit.SECONDS)
+                .map(new Function<Integer, List<Transaction>>() {
+                    @Override
+                    public List<Transaction> apply(Integer count) throws Exception {
+                        List<Transaction> transactions = new ArrayList<>(count);
+                        for (int i = 0; i < count; i++) {
+                            Transaction transaction = new Transaction(String.valueOf(++curCount), new Money(10, 100, "¥"), new Date());
+                            transactions.add(transaction);
+                        }
+                        return transactions;
+                    }
+                });
     }
 }

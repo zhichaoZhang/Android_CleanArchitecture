@@ -21,12 +21,12 @@ public abstract class BaseListFragment<P extends BaseListPresenter<?, ?>, M> ext
     }
 
     @Override
-    public void showLoadMore() {
+    public void hideLoadMore() {
 
     }
 
     @Override
-    public void hideLoadMore() {
+    public void loadMoreError(Throwable throwable) {
 
     }
 
