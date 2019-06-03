@@ -20,10 +20,14 @@ import javax.inject.Inject;
 
 public class JobExecutor implements ThreadExecutor {
     private final ThreadPoolExecutor threadPoolExecutor;
+    /**
+     * 虚拟机可以使用的最大处理器个数
+     */
+    private static final int NUMBER_OF_CPU_CORE = Runtime.getRuntime().availableProcessors();
 
     @Inject
     public JobExecutor() {
-        this.threadPoolExecutor = new ThreadPoolExecutor(3/*核心线程数*/, 5/*最大线程数*/, 10/*线程空闲存活时间*/, TimeUnit.SECONDS,
+        this.threadPoolExecutor = new ThreadPoolExecutor(NUMBER_OF_CPU_CORE + 1/*核心线程数*/, NUMBER_OF_CPU_CORE * 2/*最大线程数*/, 60L/*线程空闲存活时间*/, TimeUnit.SECONDS,
                 new LinkedBlockingQueue<Runnable>()/*任务队列*/, new JobThreadFactory()/*线程工厂*/);
     }
 
