@@ -20,7 +20,7 @@
 
     <!--Dialog基础样式-->
     <style name="Base.Dialog" parent="Base.Theme.AppCompat.Light.Dialog">
-
+        <item name="android:windowBackground">@null</item>
     </style>
 
     <style name="Base.Dialog.Loading" parent="Base.Dialog">

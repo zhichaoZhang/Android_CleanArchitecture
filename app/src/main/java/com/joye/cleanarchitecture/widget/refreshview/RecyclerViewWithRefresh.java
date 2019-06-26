@@ -97,7 +97,7 @@ public class RecyclerViewWithRefresh extends BaseRecyclerView implements IRefres
             }
         });
 
-        addOnScrollListener(new OnScrollListener() {
+        addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -108,15 +108,18 @@ public class RecyclerViewWithRefresh extends BaseRecyclerView implements IRefres
                 super.onScrolled(recyclerView, dx, dy);
                 int firstVisibleItemPos = NO_POSITION;
                 int lastVisibleItemPos = NO_POSITION;
-                LayoutManager layoutManager = recyclerView.getLayoutManager();
+                RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                if (layoutManager == null) {
+                    return;
+                }
                 int itemCount = layoutManager.getItemCount();
                 if (layoutManager instanceof LinearLayoutManager) {
                     firstVisibleItemPos = ((LinearLayoutManager) layoutManager).findFirstCompletelyVisibleItemPosition();
-                    lastVisibleItemPos = ((LinearLayoutManager) layoutManager).findLastCompletelyVisibleItemPosition();
+                    lastVisibleItemPos = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
                 }
                 if (layoutManager instanceof StaggeredGridLayoutManager) {
                     firstVisibleItemPos = ((StaggeredGridLayoutManager) layoutManager).findFirstCompletelyVisibleItemPositions(null)[0];
-                    lastVisibleItemPos = ((StaggeredGridLayoutManager) layoutManager).findLastCompletelyVisibleItemPositions(null)[0];
+                    lastVisibleItemPos = ((StaggeredGridLayoutManager) layoutManager).findLastVisibleItemPositions(null)[0];
                 }
 
                 //当滑动到顶部时，再启用SwipeRefreshLayout
@@ -138,6 +141,7 @@ public class RecyclerViewWithRefresh extends BaseRecyclerView implements IRefres
                 }
             }
         });
+
 
         flNewParent.addView(mEmptyErrorView);
         flNewParent.addView(mSwipeRefreshLayout);
@@ -189,11 +193,35 @@ public class RecyclerViewWithRefresh extends BaseRecyclerView implements IRefres
         if (mSwipeRefreshLayout != null) {
             mSwipeRefreshLayout.setRefreshing(false);
         }
+        //停止下拉刷新后，自动显示加载更多
         mAdapter.updateLoadMoreStatus(LoadMoreStatus.HAVE_MORE);
+
+        //规避场景：数据只有一页，每页只有一条。
+        //当再次下拉刷新时，由于数据条数没变化，不会触发RecyclerView滚动，所以需要额外判断一次是否需要加载更多
+        RecyclerView.LayoutManager layoutManager = getLayoutManager();
+        if (layoutManager == null) {
+            return;
+        }
+        int itemCount = layoutManager.getItemCount();
+
+        int lastVisibleItemPos = NO_POSITION;
+        if (layoutManager instanceof LinearLayoutManager) {
+            lastVisibleItemPos = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+        }
+        if (layoutManager instanceof StaggeredGridLayoutManager) {
+            lastVisibleItemPos = ((StaggeredGridLayoutManager) layoutManager).findLastVisibleItemPositions(null)[0];
+        }
+
+        if (itemCount > 0 && lastVisibleItemPos == (itemCount - 1)) {
+            if (mOnLoadListener != null) {
+                mOnLoadListener.onLoadMore();
+            }
+        }
     }
 
     @Override
     public void stopLoadMore() {
+        mAdapter.updateLoadMoreStatus(LoadMoreStatus.UNKNOWN);
     }
 
     @Override
@@ -216,6 +244,10 @@ public class RecyclerViewWithRefresh extends BaseRecyclerView implements IRefres
         mEmptyErrorView.setErrorViewVisible(visible, errorMsg, errorImageRes);
     }
 
+    public void showLoadingMore() {
+        mAdapter.updateLoadMoreStatus(LoadMoreStatus.HAVE_MORE);
+    }
+
     /**
      * 支持加载更多视图的列表适配器，子类需继承此类
      *
@@ -232,14 +264,14 @@ public class RecyclerViewWithRefresh extends BaseRecyclerView implements IRefres
          * 当前列表加载更多Item的状态
          */
         private @LoadMoreStatus.LoadMoreStatusDef
-        int mLoadMoreStatus = LoadMoreStatus.HAVE_MORE;
+        int mLoadMoreStatus = LoadMoreStatus.UNKNOWN;
 
         private OnLoadMoreErrorStatusClickListener mListener;
 
         /**
          * 加载更多失败时，点击监听
          */
-        interface OnLoadMoreErrorStatusClickListener {
+        public interface OnLoadMoreErrorStatusClickListener {
             /**
              * 点击加载错误Item
              */
@@ -255,7 +287,7 @@ public class RecyclerViewWithRefresh extends BaseRecyclerView implements IRefres
          *
          * @param onLoadMoreErrorStatusClickListener OnLoadMoreErrorStatusClickListener
          */
-        void setOnLoadMoreErrorStatusClickListener(OnLoadMoreErrorStatusClickListener onLoadMoreErrorStatusClickListener) {
+        public void setOnLoadMoreErrorStatusClickListener(OnLoadMoreErrorStatusClickListener onLoadMoreErrorStatusClickListener) {
             this.mListener = onLoadMoreErrorStatusClickListener;
         }
 
@@ -264,18 +296,22 @@ public class RecyclerViewWithRefresh extends BaseRecyclerView implements IRefres
             int viewHolderType = getItemViewType(position);
             if (viewHolderType == ITEM_LOADING_MORE_TYPE) {
                 LoadMoreViewHolder loadMoreViewHolder = (LoadMoreViewHolder) holder;
+                MyLog.d("update load more status: %s", mLoadMoreStatus);
                 switch (mLoadMoreStatus) {
                     case LoadMoreStatus.HAVE_MORE:
+                        loadMoreViewHolder.llRoot.setVisibility(VISIBLE);
                         loadMoreViewHolder.pbLoadingMore.setVisibility(VISIBLE);
                         loadMoreViewHolder.btvLoadingMore.setText(mCxt.getString(R.string.loading));
                         loadMoreViewHolder.llRoot.setOnClickListener(null);
                         break;
                     case LoadMoreStatus.NO_MORE:
+                        loadMoreViewHolder.llRoot.setVisibility(VISIBLE);
                         loadMoreViewHolder.pbLoadingMore.setVisibility(GONE);
                         loadMoreViewHolder.btvLoadingMore.setText(mCxt.getString(R.string.no_more_data));
                         loadMoreViewHolder.llRoot.setOnClickListener(null);
                         break;
                     case LoadMoreStatus.LOAD_ERROR:
+                        loadMoreViewHolder.llRoot.setVisibility(VISIBLE);
                         loadMoreViewHolder.pbLoadingMore.setVisibility(GONE);
                         loadMoreViewHolder.btvLoadingMore.setText(mCxt.getString(R.string.load_failed_click_retry));
                         loadMoreViewHolder.llRoot.setOnClickListener(v -> {
@@ -283,6 +319,9 @@ public class RecyclerViewWithRefresh extends BaseRecyclerView implements IRefres
                                 mListener.onCLickLoadErrorItem();
                             }
                         });
+                        break;
+                    case LoadMoreStatus.UNKNOWN:
+                        loadMoreViewHolder.llRoot.setVisibility(GONE);
                         break;
                 }
             } else {
@@ -367,6 +406,10 @@ public class RecyclerViewWithRefresh extends BaseRecyclerView implements IRefres
      */
     public static class LoadMoreStatus {
         /**
+         * 未知状态
+         */
+        static final int UNKNOWN = 0;
+        /**
          * 还有更多数据
          */
         static final int HAVE_MORE = 1;
@@ -380,7 +423,7 @@ public class RecyclerViewWithRefresh extends BaseRecyclerView implements IRefres
         static final int LOAD_ERROR = 3;
 
         @Retention(RetentionPolicy.SOURCE)
-        @IntDef({HAVE_MORE, NO_MORE, LOAD_ERROR})
+        @IntDef({UNKNOWN, HAVE_MORE, NO_MORE, LOAD_ERROR})
         @interface LoadMoreStatusDef {
 
         }

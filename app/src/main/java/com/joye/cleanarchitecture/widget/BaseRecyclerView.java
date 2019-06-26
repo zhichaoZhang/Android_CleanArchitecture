@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+
 import butterknife.ButterKnife;
 
 /**
@@ -47,10 +48,27 @@ public class BaseRecyclerView extends RecyclerView {
     public static abstract class BaseAdapter<VH extends BaseViewHolder, M> extends RecyclerView.Adapter<VH> {
         private LayoutInflater mLayoutInflater;
         protected Context mCxt;
+        protected OnListClickListener mClickListener;
+
+        /**
+         * 列表项点击监听
+         */
+        public interface OnListClickListener {
+            void onItemClick(int position);
+        }
 
         public BaseAdapter(Context context) {
             this.mCxt = context;
             this.mLayoutInflater = LayoutInflater.from(context);
+        }
+
+        /**
+         * 设置列表点击监听
+         *
+         * @param onClickListener 点击事件监听
+         */
+        public void setOnClickListener(OnListClickListener onClickListener) {
+            this.mClickListener = onClickListener;
         }
 
         @NonNull

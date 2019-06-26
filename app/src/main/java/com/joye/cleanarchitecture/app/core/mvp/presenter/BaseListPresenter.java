@@ -168,26 +168,25 @@ public abstract class BaseListPresenter<V extends BaseListView, M> extends BaseP
     @CallSuper
     protected void dealLoadSuccess(M value, LoadType loadType) {
         if (isRefreshing()) {
-            setRefreshing(false);
-            mView.stopRefresh();
-
             if (mLatestLoadType == LoadType.LOAD_TYPE_REFRESH && mLatestLoadType == loadType) {
                 loadFinish(value, mLatestLoadType);
                 //当下拉刷新成功后，则可以继续加载更多
                 noMore(false);
-
-                if (getDataListSize() == 0) {
+                int curListSize = getDataListSize();
+                if (curListSize == 0) {
                     //如果下拉刷新完成列表数据仍是0，则显示空页面
                     mView.setEmptyViewVisible(true);
                 } else {
+                    mLastListSize = curListSize;
                     //否则隐藏错误页面和空页面
                     mView.setErrorViewVisible(false);
                     mView.setEmptyViewVisible(false);
                 }
             }
+
+            setRefreshing(false);
+            mView.stopRefresh();
         } else if (isLoadingMore()) {
-            setLoadingMore(false);
-            mView.hideLoadMore();
 
             if (mLatestLoadType == LoadType.LOAD_TYPE_LOAD_MORE && mLatestLoadType == loadType) {
                 loadFinish(value, mLatestLoadType);
@@ -202,6 +201,8 @@ public abstract class BaseListPresenter<V extends BaseListView, M> extends BaseP
                     mLastListSize = curListSize;
                 }
             }
+
+            setLoadingMore(false);
         }
     }
 

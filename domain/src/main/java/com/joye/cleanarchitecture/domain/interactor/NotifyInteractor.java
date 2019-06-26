@@ -27,13 +27,13 @@ public class NotifyInteractor extends BaseInteractor {
     public Observable<List<Notification>> getNotifyList(int pageNum, int pageSize) {
         mCurPageNum = pageNum;
 
-        if(mCurPageNum == 2) {
-            return Observable.just(1).delay(3, TimeUnit.SECONDS).map(integer -> {
-                throw new Exception("Maybe some error happened.");
-            });
-        }
+//        if(mCurPageNum == 2) {
+//            return Observable.just(1).delay(3, TimeUnit.SECONDS).map(integer -> {
+//                throw new Exception("Maybe some error happened.");
+//            });
+//        }
 
-        if(mCurPageNum == 5) {
+        if(mCurPageNum == 2) {
             return Observable.just(pageNum)
                     .delay(3, TimeUnit.SECONDS)
                     .map(integer -> new ArrayList<>());

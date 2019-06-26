@@ -30,7 +30,7 @@ ext {
     androidSupportVersion = "27.1.1"
     androidAnnotationVersion = "1.1.0-alpha02"
     androidMaterialVersion = "1.1.0-alpha05"
-    daggerVersion = '2.16'
+    daggerVersion = '2.23.1'
     butterKnifeVersion = '10.1.0'
     recyclerViewVersion = '1.1.0-alpha03'
     rxJavaVersion = '2.2.7'

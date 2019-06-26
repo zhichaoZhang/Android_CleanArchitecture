@@ -19,7 +19,7 @@ public abstract class PagingByPageNumListPresenter<V extends BaseListView, M> ex
     /**
      * 每页大小
      */
-    private static final int PAGE_SIZE = 15;
+    private static final int PAGE_SIZE = 1;
 
     /**
      * 当前页号
@@ -57,9 +57,9 @@ public abstract class PagingByPageNumListPresenter<V extends BaseListView, M> ex
 
     @Override
     protected void dealLoadSuccess(M value, LoadType loadType) {
-        super.dealLoadSuccess(value, loadType);
         //在加载更多请求成功后，页号才加1
         addPageNumber();
+        super.dealLoadSuccess(value, loadType);
     }
 
     //页号加1
