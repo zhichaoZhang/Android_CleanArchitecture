@@ -1,6 +1,10 @@
 package com.joye.cleanarchitecture.app.core.dialog;
 
+import android.content.Context;
 import android.content.DialogInterface;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 /**
@@ -13,6 +17,19 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 public abstract class BaseDialog<B extends BaseDialog.Builder> extends AppCompatDialogFragment {
     private B builder;
+    private Context context;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.context = context;
+    }
+
+    @NonNull
+    @Override
+    public Context getContext() {
+        return context;
+    }
 
     public void setBuilder(B builder) {
         this.builder = builder;
